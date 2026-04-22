@@ -1,20 +1,20 @@
-/* Twemco-style flip clock: dark page, light grey casing, orange controls */
+/* Twemco-style flip clock based on reference */
 
 :root {
   color-scheme: dark;
 
-  --color-page-bg: #0d0e10;
-  --color-case-outer: #bdb7ab;
-  --color-case-mid: #a8a299;
-  --color-case-highlight: #d8d2c6;
-  --color-face-recess: #0e0f12;
-  --color-face-border: #1a1b1f;
-  --color-tile-bg: #0a0a0c;
-  --color-tile-lower: #08090b;
-  --color-hinge: #1a1c20;
-  --color-digit: #f4f2ed;
-  --color-digit-dim: #c8c4bc;
-  --color-chrome-label: #5a564e;
+  --color-page-bg: #ececec;
+  --color-case-outer: #d9d4c8;
+  --color-case-mid: #c9c3b6;
+  --color-case-highlight: #f1ece2;
+  --color-face-recess: #d4cec3;
+  --color-face-border: #726f68;
+  --color-tile-bg: #2f3238;
+  --color-tile-lower: #282b31;
+  --color-hinge: #1e2127;
+  --color-digit: #f1f3f6;
+  --color-digit-dim: #d0d4da;
+  --color-chrome-label: #8f8b82;
   --color-led-off: #3a1515;
   --color-led-on: #e62828;
   --color-led-glow: rgba(230, 40, 40, 0.55);
@@ -23,18 +23,23 @@
   --color-btn-orange-hover: #ffa033;
   --color-btn-orange-shadow: #8c4a00;
   --color-btn-text: #1a1208;
+  --color-btn-case-light: #f2ede2;
+  --color-btn-case-mid: #dad3c5;
+  --color-btn-case-deep: #c2b9aa;
+  --color-btn-case-border: #8f877a;
+  --color-btn-case-shadow: rgba(54, 47, 39, 0.38);
 
   --wheel-item: 2.75rem;
   --wheel-visible: 5;
-  --wheel-bg: #0a0a0c;
-  --wheel-fade: rgba(10, 10, 12, 0.92);
-  --wheel-slot: rgba(55, 55, 62, 0.55);
-  --wheel-slot-border: rgba(255, 140, 0, 0.45);
+  --wheel-bg: #2a2d33;
+  --wheel-fade: rgba(42, 45, 51, 0.94);
+  --wheel-slot: rgba(118, 126, 140, 0.3);
+  --wheel-slot-border: rgba(226, 231, 238, 0.36);
 
   --font-digits: "Helvetica Neue", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif;
   --font-ui: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 
-  --radius-case: 2.25rem;
+  --radius-case: 1.75rem;
   --radius-tile: 0.5rem;
   --shadow-case-out:
     0 0.35rem 0 rgba(0, 0, 0, 0.25),
@@ -57,62 +62,80 @@ body {
   min-height: 100%;
   font-family: var(--font-ui);
   background: var(--color-page-bg);
-  background-image:
-    radial-gradient(ellipse 120% 80% at 50% -15%, rgba(35, 38, 45, 0.5), transparent 50%),
-    radial-gradient(ellipse 90% 55% at 100% 100%, rgba(20, 22, 28, 0.65), transparent 48%);
+  background-image: none;
   color: var(--color-digit);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: clamp(1rem, 4vw, 2.5rem);
+  padding: clamp(0.65rem, 2.2vw, 1.25rem);
+  overflow: hidden;
 }
 
 #app {
   width: 100%;
-  max-width: min(100%, 44rem);
+  max-width: min(100%, 47.8rem);
 }
 
 /* ─── Outer “clock housing” — pill frame, beveled depth ─── */
 
 .pomodoro-timer {
   margin: 0 auto;
+  width: min(100%, 47.8rem);
 }
 
 .pomodoro-timer__case {
   position: relative;
-  padding: clamp(1.1rem, 3vw, 1.5rem) clamp(1.25rem, 4vw, 1.75rem) clamp(1.25rem, 3.5vw, 1.65rem);
+  padding: clamp(1rem, 2.8vw, 1.35rem) clamp(1.35rem, 4vw, 1.9rem) clamp(1.05rem, 3vw, 1.4rem);
   border-radius: var(--radius-case);
   background: linear-gradient(
     165deg,
     var(--color-case-highlight) 0%,
-    #cfc9be 12%,
+    #e4dfd4 12%,
     var(--color-case-outer) 35%,
     var(--color-case-mid) 72%,
-    #959086 100%
+    #b4ada0 100%
   );
   box-shadow:
-    var(--shadow-case-out),
-    inset 0 2px 3px rgba(255, 255, 255, 0.45),
-    inset 0 -2px 6px rgba(0, 0, 0, 0.15);
-  border: 1px solid rgba(80, 75, 68, 0.35);
+    0 0.8rem 1.4rem rgba(0, 0, 0, 0.18),
+    inset 0 1px 2px rgba(255, 255, 255, 0.6),
+    inset 0 -3px 8px rgba(0, 0, 0, 0.12),
+    inset 0 14px 18px rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(121, 115, 106, 0.5);
 }
 
 .pomodoro-timer__case::before {
   content: "";
   position: absolute;
-  inset: 0.45rem;
+  inset: 0.35rem;
   border-radius: calc(var(--radius-case) - 0.35rem);
   border: 1px solid rgba(255, 255, 255, 0.25);
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    inset 0 -2px 0 rgba(83, 77, 67, 0.14);
   pointer-events: none;
 }
 
-/* ─── iOS-style wheels: hours | minutes | seconds ─── */
+/* Decorative side knob to mimic reference clock */
+.pomodoro-timer__case::after {
+  content: "";
+  position: absolute;
+  left: clamp(-0.9rem, -1.6vw, -0.65rem);
+  top: 50%;
+  width: clamp(0.7rem, 1.5vw, 0.9rem);
+  height: clamp(4rem, 12vw, 5.2rem);
+  transform: translateY(-50%);
+  border-radius: 0.4rem 0 0 0.4rem;
+  background: linear-gradient(180deg, #5a301a 0%, #3d1f10 45%, #2d170c 100%);
+  box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.08);
+}
+
+/* Wheels */
 
 .timer-setup {
   position: relative;
   z-index: 2;
-  margin-bottom: 0.65rem;
+  margin-bottom: 0.72rem;
   padding-top: 0.15rem;
 }
 
@@ -136,12 +159,29 @@ body {
 
 .wheel-picker__chrome {
   position: relative;
-  border-radius: 0.85rem;
+  border-radius: 0.38rem;
   background: var(--wheel-bg);
   box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
-    0 4px 20px rgba(0, 0, 0, 0.35);
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 2px 8px rgba(0, 0, 0, 0.25),
+    inset 0 12px 18px rgba(255, 255, 255, 0.03),
+    inset 0 -8px 14px rgba(0, 0, 0, 0.26);
+  border: 1px solid rgba(18, 19, 22, 0.9);
   overflow: hidden;
+}
+
+.wheel-picker__chrome::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.16) 0%,
+    rgba(255, 255, 255, 0.04) 20%,
+    transparent 42%
+  );
+  z-index: 3;
 }
 
 .wheel-picker__headings {
@@ -218,7 +258,7 @@ body {
   font-variant-numeric: tabular-nums;
   font-weight: 600;
   letter-spacing: -0.02em;
-  color: rgba(255, 255, 255, 0.28);
+  color: rgba(241, 243, 246, 0.34);
   user-select: none;
   -webkit-user-select: none;
 }
@@ -240,7 +280,7 @@ body {
 
 .wheel-picker__item[aria-selected="true"] .wheel-picker__num,
 .wheel-picker__item[aria-selected="true"] .wheel-picker__unit {
-  color: #fff;
+  color: #f4f6f9;
 }
 
 .wheel-picker__item[aria-selected="true"] .wheel-picker__unit {
@@ -254,12 +294,12 @@ body {
   top: 50%;
   height: var(--wheel-item);
   margin-top: calc(var(--wheel-item) / -2);
-  border-radius: 0.5rem;
+  border-radius: 0.22rem;
   background: var(--wheel-slot);
   border: 1px solid var(--wheel-slot-border);
   box-shadow:
     0 0 0 1px rgba(0, 0, 0, 0.4),
-    0 0 18px rgba(255, 140, 0, 0.12);
+    0 0 10px rgba(255, 255, 255, 0.08);
   pointer-events: none;
   z-index: 1;
 }
@@ -299,13 +339,27 @@ body {
   position: relative;
   z-index: 1;
   padding: clamp(0.85rem, 2.5vw, 1.1rem) clamp(0.75rem, 2vw, 1rem);
-  border-radius: 1.1rem;
-  background: linear-gradient(180deg, #1a1c22 0%, var(--color-face-recess) 100%);
+  border-radius: 0.75rem;
+  background: linear-gradient(180deg, #dcd7cc 0%, var(--color-face-recess) 100%);
   box-shadow:
     var(--shadow-case-in),
     inset 0 0 0 1px var(--color-face-border),
-    0 2px 8px rgba(0, 0, 0, 0.35);
-  border: 1px solid rgba(0, 0, 0, 0.65);
+    0 2px 6px rgba(0, 0, 0, 0.16),
+    inset 0 10px 12px rgba(255, 255, 255, 0.18),
+    inset 0 -12px 14px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(107, 102, 93, 0.55);
+}
+
+.pomodoro-timer__face::before {
+  content: "";
+  position: absolute;
+  inset: 0.28rem;
+  border-radius: 0.55rem;
+  border: 1px solid rgba(96, 91, 83, 0.36);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.18);
+  pointer-events: none;
 }
 
 /* ─── Readout row: flip tiles + mode LED ─── */
@@ -320,7 +374,7 @@ body {
 .timer-readout__tiles {
   display: flex;
   align-items: center;
-  gap: 0.12rem;
+  gap: 0.18rem;
   font-variant-numeric: tabular-nums;
   font-family: var(--font-digits);
   font-weight: 700;
@@ -332,8 +386,8 @@ body {
 .timer-readout__colon {
   font-size: clamp(2.25rem, 10vw, 3.5rem);
   padding: 0 0.04em;
-  color: var(--color-digit-dim);
-  opacity: 0.85;
+  color: #3a3d45;
+  opacity: 0.68;
   translate: 0 -0.04em;
 }
 
@@ -343,9 +397,9 @@ body {
   position: relative;
   min-width: clamp(3.1rem, 16vw, 5.25rem);
   padding: clamp(0.55rem, 2vw, 0.75rem) clamp(0.45rem, 1.5vw, 0.65rem);
-  border-radius: var(--radius-tile);
+  border-radius: 0.32rem;
   background: var(--color-tile-bg);
-  border: 1px solid #1e2026;
+  border: 1px solid #1c1f25;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.06),
     inset 0 -2px 4px rgba(0, 0, 0, 0.5),
@@ -433,7 +487,7 @@ body {
   letter-spacing: 0.18em;
   text-transform: uppercase;
   text-align: center;
-  color: rgba(140, 170, 185, 0.85);
+  color: var(--color-chrome-label);
   line-height: 1.25;
 }
 
@@ -445,7 +499,7 @@ body {
   display: flex;
   gap: 0.65rem;
   justify-content: center;
-  margin-top: clamp(1rem, 3vw, 1.35rem);
+  margin-top: clamp(0.8rem, 2.6vw, 1.1rem);
   padding-top: 0.15rem;
 }
 
@@ -455,49 +509,68 @@ body {
   padding: 0.65rem 1rem;
   font-family: var(--font-ui);
   font-size: 0.78rem;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  border-radius: 0.4rem;
-  border: 1px solid rgba(0, 0, 0, 0.45);
+  border-radius: 999px;
+  border: 1px solid var(--color-btn-case-border);
   cursor: pointer;
-  transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+  transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease, filter 0.15s ease;
+  color: #4a4337;
+  background: linear-gradient(
+    180deg,
+    var(--color-btn-case-light) 0%,
+    var(--color-btn-case-mid) 48%,
+    var(--color-btn-case-deep) 100%
+  );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.75),
+    inset 0 -2px 3px rgba(80, 70, 56, 0.2),
+    0 3px 0 rgba(130, 119, 102, 0.8),
+    0 7px 12px var(--color-btn-case-shadow);
 }
 
 .timer-controls__btn:active {
-  transform: translateY(1px);
+  transform: translateY(2px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.65),
+    inset 0 -1px 2px rgba(80, 70, 56, 0.22),
+    0 1px 0 rgba(130, 119, 102, 0.8),
+    0 4px 7px rgba(54, 47, 39, 0.3);
 }
 
 .timer-controls__btn--primary {
-  color: var(--color-btn-text);
-  background: linear-gradient(180deg, var(--color-btn-orange-hover) 0%, var(--color-btn-orange) 45%, var(--color-btn-orange-deep) 100%);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.35),
-    0 2px 0 var(--color-btn-orange-shadow),
-    0 4px 12px rgba(0, 0, 0, 0.35);
-  border-color: rgba(120, 70, 0, 0.45);
+  color: #4a4337;
 }
 
 .timer-controls__btn--primary:hover {
-  background: linear-gradient(180deg, #ffb84d 0%, var(--color-btn-orange-hover) 50%, var(--color-btn-orange) 100%);
+  filter: brightness(1.03);
 }
 
 .timer-controls__btn--secondary {
-  color: var(--color-btn-text);
-  background: linear-gradient(180deg, #e8890a 0%, #cc7700 45%, #b36800 100%);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.28),
-    0 2px 0 #7a4200,
-    0 3px 10px rgba(0, 0, 0, 0.3);
-  border-color: rgba(100, 55, 0, 0.5);
+  color: #4a4337;
 }
 
 .timer-controls__btn--secondary:hover {
-  background: linear-gradient(180deg, var(--color-btn-orange-hover) 0%, #e8890a 55%, #cc7700 100%);
+  filter: brightness(1.03);
 }
 
 /* Optional: dim LED when you add a “paused” class via JS */
 .pomodoro-timer.is-paused .timer-mode__led {
   background: var(--color-led-off);
   box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+@media (max-height: 560px) {
+  body {
+    padding: 0.5rem;
+  }
+
+  .pomodoro-timer__case {
+    padding: 0.85rem 1rem 0.95rem;
+  }
+
+  .timer-controls {
+    margin-top: 0.65rem;
+  }
 }
