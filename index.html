@@ -1,13 +1,97 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pomodoro</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pomodoro Timer</title>
+    <link rel="stylesheet" href="./src/style.css">
+</head>
+<body>
+    <div id="app">
+        <main class="pomodoro-timer" aria-labelledby="mode-indicator">
+            <div class="pomodoro-timer__case">
+                <section class="timer-setup" aria-label="Set duration">
+                    <div id="duration-wheels" class="wheel-picker">
+                        <div class="wheel-picker__headings" role="row" aria-hidden="true">
+                            <span class="wheel-picker__heading">Hours</span>
+                            <span class="wheel-picker__heading">Min</span>
+                            <span class="wheel-picker__heading">Sec</span>
+                        </div>
+                        <div class="wheel-picker__chrome">
+                            <div class="wheel-picker__fade wheel-picker__fade--top" aria-hidden="true"></div>
+                            <div class="wheel-picker__fade wheel-picker__fade--bottom" aria-hidden="true"></div>
+                            <div class="wheel-picker__highlight" aria-hidden="true"></div>
+                            <div class="wheel-picker__columns">
+                                <div class="wheel-picker__column">
+                                    <div
+                                        id="wheel-hours"
+                                        class="wheel-picker__viewport"
+                                        tabindex="0"
+                                        role="listbox"
+                                        aria-label="Hours"
+                                    >
+                                        <div class="wheel-picker__track" data-wheel-track></div>
+                                    </div>
+                                </div>
+                                <div class="wheel-picker__column">
+                                    <div
+                                        id="wheel-minutes"
+                                        class="wheel-picker__viewport"
+                                        tabindex="0"
+                                        role="listbox"
+                                        aria-label="Minutes"
+                                    >
+                                        <div class="wheel-picker__track" data-wheel-track></div>
+                                    </div>
+                                </div>
+                                <div class="wheel-picker__column">
+                                    <div
+                                        id="wheel-seconds"
+                                        class="wheel-picker__viewport"
+                                        tabindex="0"
+                                        role="listbox"
+                                        aria-label="Seconds"
+                                    >
+                                        <div class="wheel-picker__track" data-wheel-track></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="pomodoro-timer__face">
+                    <section class="timer-readout" aria-label="Time remaining">
+                        <time id="timer-display" class="timer-readout__tiles" datetime="PT0H25M0S">
+                            <span class="flip-tile">
+                                <span id="timer-hours" class="flip-tile__digits">00</span>
+                            </span>
+                            <span class="timer-readout__colon" aria-hidden="true">:</span>
+                            <span class="flip-tile">
+                                <span id="timer-minutes" class="flip-tile__digits">25</span>
+                            </span>
+                            <span class="timer-readout__colon" aria-hidden="true">:</span>
+                            <span class="flip-tile">
+                                <span id="timer-seconds" class="flip-tile__digits">00</span>
+                            </span>
+                        </time>
+                        <div class="timer-mode">
+                            <span class="timer-mode__led" aria-hidden="true"></span>
+                            <p id="mode-indicator" class="timer-mode__label" role="status">Set</p>
+                        </div>
+                    </section>
+                </div>
+                <div class="timer-controls" role="group" aria-label="Timer controls">
+                    <button type="button" id="start-pause-btn" class="timer-controls__btn timer-controls__btn--primary">
+                        Start
+                    </button>
+                    <button type="button" id="reset-btn" class="timer-controls__btn timer-controls__btn--secondary">
+                        Reset
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script type="module" src="./src/main.js"></script>
+</body>
 </html>
