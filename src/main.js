@@ -54,6 +54,7 @@ function createFlipTile(digitsEl) {
   let current = initial
   let flipping = false
   let queued = ''
+  let flipRafId = 0
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
 
   function commitStatic(next) {
@@ -66,9 +67,12 @@ function createFlipTile(digitsEl) {
     flipping = true
     topFlapText.textContent = current
     bottomFlapText.textContent = next
+    if (flipRafId) cancelAnimationFrame(flipRafId)
     tile.classList.remove('is-flipping')
-    void tile.offsetWidth
-    tile.classList.add('is-flipping')
+    flipRafId = requestAnimationFrame(() => {
+      tile.classList.add('is-flipping')
+      flipRafId = 0
+    })
   }
 
   bottomFlap.addEventListener('animationend', () => {
@@ -93,6 +97,10 @@ function createFlipTile(digitsEl) {
       if (next === current) return
       if (!animate || reduceMotion.matches) {
         queued = ''
+        if (flipRafId) {
+          cancelAnimationFrame(flipRafId)
+          flipRafId = 0
+        }
         tile.classList.remove('is-flipping')
         flipping = false
         commitStatic(next)

@@ -45,6 +45,8 @@
     0 0.35rem 0 rgba(0, 0, 0, 0.25),
     0 1.25rem 2.5rem rgba(0, 0, 0, 0.5);
   --shadow-case-in: inset 0 1px 0 rgba(255, 255, 255, 0.35), inset 0 -0.5rem 1rem rgba(0, 0, 0, 0.12);
+  --flip-phase-duration: 0.18s;
+  --flip-overlap-delay: 0.18s;
 }
 
 *,
@@ -365,14 +367,16 @@ body {
 /* ─── Readout row: flip tiles + mode LED ─── */
 
 .timer-readout {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
-  justify-content: center;
   gap: clamp(0.65rem, 3vw, 1rem);
 }
 
 .timer-readout__tiles {
   display: flex;
+  grid-column: 2;
+  justify-self: center;
   align-items: center;
   gap: 0.18rem;
   font-variant-numeric: tabular-nums;
@@ -405,6 +409,8 @@ body {
     inset 0 -2px 4px rgba(0, 0, 0, 0.5),
     0 2px 6px rgba(0, 0, 0, 0.35);
   overflow: hidden;
+  perspective: 600px;
+  transform-style: preserve-3d;
 }
 
 .flip-tile::before {
@@ -457,6 +463,8 @@ body {
   overflow: hidden;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+  transform: translateZ(0);
+  will-change: transform, filter, opacity;
 }
 
 .flip-tile__half--top,
@@ -486,6 +494,10 @@ body {
   z-index: 3;
   pointer-events: none;
   opacity: 0;
+}
+
+.flip-tile__flap .flip-tile__text {
+  text-shadow: none;
 }
 
 .flip-tile__text {
@@ -519,33 +531,35 @@ body {
 
 .flip-tile.is-flipping .flip-tile__flap--top {
   opacity: 1;
-  animation: flip-top 0.32s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: flip-top var(--flip-phase-duration) cubic-bezier(0.3, 0, 0.7, 1) forwards;
 }
 
 .flip-tile.is-flipping .flip-tile__flap--bottom {
   opacity: 1;
-  animation: flip-bottom 0.32s cubic-bezier(0.2, 0.8, 0.2, 1) 0.32s forwards;
+  animation:
+    flip-bottom var(--flip-phase-duration) cubic-bezier(0.2, 0.95, 0.35, 1)
+    var(--flip-overlap-delay) forwards;
 }
 
 @keyframes flip-top {
   0% {
     transform: rotateX(0deg);
-    filter: brightness(1);
+    filter: none;
   }
   100% {
     transform: rotateX(-90deg);
-    filter: brightness(0.72);
+    filter: none;
   }
 }
 
 @keyframes flip-bottom {
   0% {
     transform: rotateX(90deg);
-    filter: brightness(0.74);
+    filter: none;
   }
   100% {
     transform: rotateX(0deg);
-    filter: brightness(1);
+    filter: none;
   }
 }
 
@@ -560,10 +574,13 @@ body {
 
 .timer-mode {
   display: flex;
+  grid-column: 3;
+  justify-self: end;
   flex-direction: column;
   align-items: center;
   gap: 0.35rem;
   flex-shrink: 0;
+  width: 4.5rem;
   padding-top: 0.15rem;
 }
 
@@ -580,7 +597,7 @@ body {
 
 .timer-mode__label {
   margin: 0;
-  max-width: 4.5rem;
+  width: 100%;
   font-size: 0.58rem;
   font-weight: 600;
   letter-spacing: 0.18em;
