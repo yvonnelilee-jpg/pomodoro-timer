@@ -1,0 +1,30 @@
+/* Readout row layout: time strip + mode column grid */
+
+.timer-readout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(0.65rem, 3vw, 1rem);
+}
+
+.timer-readout__tiles {
+  display: flex;
+  grid-column: 2;
+  justify-self: center;
+  align-items: center;
+  gap: 0.18rem;
+  font-variant-numeric: tabular-nums;
+  font-family: var(--font-digits);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--color-digit);
+  flex-wrap: nowrap;
+}
+
+.timer-readout__colon {
+  font-size: clamp(2.25rem, 10vw, 3.5rem);
+  padding: 0 0.04em;
+  color: #3a3d45;
+  opacity: 0.68;
+  translate: 0 -0.04em;
+}

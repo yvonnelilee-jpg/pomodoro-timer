@@ -1,0 +1,15 @@
+/* Viewport / short-screen adjustments */
+
+@media (max-height: 560px) {
+  body {
+    padding: 0.5rem;
+  }
+
+  .pomodoro-timer__case {
+    padding: 0.85rem 1rem 0.95rem;
+  }
+
+  .timer-controls {
+    margin-top: 0.65rem;
+  }
+}

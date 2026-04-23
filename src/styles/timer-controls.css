@@ -1,0 +1,63 @@
+/* Start / reset chrome */
+
+.timer-controls {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  gap: 0.65rem;
+  justify-content: center;
+  margin-top: clamp(0.8rem, 2.6vw, 1.1rem);
+  padding-top: 0.15rem;
+}
+
+.timer-controls__btn {
+  flex: 1;
+  max-width: 9rem;
+  padding: 0.65rem 1rem;
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  border: 1px solid var(--color-btn-case-border);
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease, filter 0.15s ease;
+  color: #4a4337;
+  background: linear-gradient(
+    180deg,
+    var(--color-btn-case-light) 0%,
+    var(--color-btn-case-mid) 48%,
+    var(--color-btn-case-deep) 100%
+  );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.75),
+    inset 0 -2px 3px rgba(80, 70, 56, 0.2),
+    0 3px 0 rgba(130, 119, 102, 0.8),
+    0 7px 12px var(--color-btn-case-shadow);
+}
+
+.timer-controls__btn:active {
+  transform: translateY(2px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.65),
+    inset 0 -1px 2px rgba(80, 70, 56, 0.22),
+    0 1px 0 rgba(130, 119, 102, 0.8),
+    0 4px 7px rgba(54, 47, 39, 0.3);
+}
+
+.timer-controls__btn--primary {
+  color: #4a4337;
+}
+
+.timer-controls__btn--primary:hover {
+  filter: brightness(1.03);
+}
+
+.timer-controls__btn--secondary {
+  color: #4a4337;
+}
+
+.timer-controls__btn--secondary:hover {
+  filter: brightness(1.03);
+}

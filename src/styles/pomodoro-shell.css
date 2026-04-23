@@ -1,0 +1,53 @@
+/* Outer “clock housing” — pill frame, beveled depth */
+
+.pomodoro-timer {
+  margin: 0 auto;
+  width: min(100%, 47.8rem);
+}
+
+.pomodoro-timer__case {
+  position: relative;
+  padding: clamp(1rem, 2.8vw, 1.35rem) clamp(1.35rem, 4vw, 1.9rem) clamp(1.05rem, 3vw, 1.4rem);
+  border-radius: var(--radius-case);
+  background: linear-gradient(
+    165deg,
+    var(--color-case-highlight) 0%,
+    #e4dfd4 12%,
+    var(--color-case-outer) 35%,
+    var(--color-case-mid) 72%,
+    #b4ada0 100%
+  );
+  box-shadow:
+    0 0.8rem 1.4rem rgba(0, 0, 0, 0.18),
+    inset 0 1px 2px rgba(255, 255, 255, 0.6),
+    inset 0 -3px 8px rgba(0, 0, 0, 0.12),
+    inset 0 14px 18px rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(121, 115, 106, 0.5);
+}
+
+.pomodoro-timer__case::before {
+  content: "";
+  position: absolute;
+  inset: 0.35rem;
+  border-radius: calc(var(--radius-case) - 0.35rem);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    inset 0 -2px 0 rgba(83, 77, 67, 0.14);
+  pointer-events: none;
+}
+
+/* Decorative side knob to mimic reference clock */
+.pomodoro-timer__case::after {
+  content: "";
+  position: absolute;
+  left: clamp(-0.9rem, -1.6vw, -0.65rem);
+  top: 50%;
+  width: clamp(0.7rem, 1.5vw, 0.9rem);
+  height: clamp(4rem, 12vw, 5.2rem);
+  transform: translateY(-50%);
+  border-radius: 0.4rem 0 0 0.4rem;
+  background: linear-gradient(180deg, #5a301a 0%, #3d1f10 45%, #2d170c 100%);
+  box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.08);
+}

@@ -25,41 +25,7 @@
                                 <div class="wheel-picker__fade wheel-picker__fade--top" aria-hidden="true"></div>
                                 <div class="wheel-picker__fade wheel-picker__fade--bottom" aria-hidden="true"></div>
                                 <div class="wheel-picker__highlight" aria-hidden="true"></div>
-                                <div class="wheel-picker__columns">
-                                    <div class="wheel-picker__column">
-                                        <div
-                                            id="wheel-hours"
-                                            class="wheel-picker__viewport"
-                                            tabindex="0"
-                                            role="listbox"
-                                            aria-label="Hours"
-                                        >
-                                            <div class="wheel-picker__track" data-wheel-track></div>
-                                        </div>
-                                    </div>
-                                    <div class="wheel-picker__column">
-                                        <div
-                                            id="wheel-minutes"
-                                            class="wheel-picker__viewport"
-                                            tabindex="0"
-                                            role="listbox"
-                                            aria-label="Minutes"
-                                        >
-                                            <div class="wheel-picker__track" data-wheel-track></div>
-                                        </div>
-                                    </div>
-                                    <div class="wheel-picker__column">
-                                        <div
-                                            id="wheel-seconds"
-                                            class="wheel-picker__viewport"
-                                            tabindex="0"
-                                            role="listbox"
-                                            aria-label="Seconds"
-                                        >
-                                            <div class="wheel-picker__track" data-wheel-track></div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <div class="wheel-picker__columns" id="wheel-picker-columns"></div>
                             </div>
                         </div>
                     </section>
@@ -67,17 +33,11 @@
                     <div class="pomodoro-timer__face">
                         <section class="timer-readout" aria-label="Time remaining">
                             <time id="timer-display" class="timer-readout__tiles" datetime="PT0H25M0S">
-                                <span class="flip-tile">
-                                    <span id="timer-hours" class="flip-tile__digits">00</span>
-                                </span>
+                                <span class="flip-tile" id="timer-hours" data-flip-initial="00"></span>
                                 <span class="timer-readout__colon" aria-hidden="true">:</span>
-                                <span class="flip-tile">
-                                    <span id="timer-minutes" class="flip-tile__digits">25</span>
-                                </span>
+                                <span class="flip-tile" id="timer-minutes" data-flip-initial="25"></span>
                                 <span class="timer-readout__colon" aria-hidden="true">:</span>
-                                <span class="flip-tile">
-                                    <span id="timer-seconds" class="flip-tile__digits">00</span>
-                                </span>
+                                <span class="flip-tile" id="timer-seconds" data-flip-initial="00"></span>
                             </time>
                             <div class="timer-mode">
                                 <span class="timer-mode__led" aria-hidden="true"></span>
@@ -98,6 +58,45 @@
             </div>
         </main>
     </div>
+
+    <!-- Shared flip layers (cloned into each `.flip-tile` by `flip-tile.js`) -->
+    <template id="flip-tile-layers-template">
+        <span class="flip-tile__half flip-tile__half--top">
+            <span class="flip-tile__text"></span>
+        </span>
+        <span class="flip-tile__half flip-tile__half--bottom">
+            <span class="flip-tile__text"></span>
+        </span>
+        <span class="flip-tile__flap flip-tile__flap--top">
+            <span class="flip-tile__text"></span>
+        </span>
+        <span class="flip-tile__flap flip-tile__flap--bottom">
+            <span class="flip-tile__text"></span>
+        </span>
+    </template>
+
+    <!-- One wheel column (cloned ×3 by `wheel-picker.js`) -->
+    <template id="wheel-picker-column-template">
+        <div class="wheel-picker__column">
+            <div
+                class="wheel-picker__viewport"
+                tabindex="0"
+                role="listbox"
+                data-wheel-viewport
+            >
+                <div class="wheel-picker__track" data-wheel-track></div>
+            </div>
+        </div>
+    </template>
+
+    <!-- One wheel option row (cloned per value by `wheel-picker.js`) -->
+    <template id="wheel-picker-row-template">
+        <div class="wheel-picker__item">
+            <span class="wheel-picker__num"></span>
+            <span class="wheel-picker__unit"></span>
+        </div>
+    </template>
+
     <script type="module" src="./src/main.js"></script>
 </body>
 </html>

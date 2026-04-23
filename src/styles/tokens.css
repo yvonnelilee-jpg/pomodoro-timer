@@ -1,0 +1,53 @@
+/*
+ * Design tokens — color, type, motion, and layout variables only.
+ * Tweak the look here without touching component rules.
+ */
+
+:root {
+  color-scheme: dark;
+
+  --color-page-bg: #ececec;
+  --color-case-outer: #d9d4c8;
+  --color-case-mid: #c9c3b6;
+  --color-case-highlight: #f1ece2;
+  --color-face-recess: #d4cec3;
+  --color-face-border: #726f68;
+  --color-tile-bg: #2f3238;
+  --color-tile-lower: #282b31;
+  --color-hinge: #1e2127;
+  --color-digit: #f1f3f6;
+  --color-digit-dim: #d0d4da;
+  --color-chrome-label: #8f8b82;
+  --color-led-off: #3a1515;
+  --color-led-on: #e62828;
+  --color-led-glow: rgba(230, 40, 40, 0.55);
+  --color-btn-orange: #ff8c00;
+  --color-btn-orange-deep: #e07b00;
+  --color-btn-orange-hover: #ffa033;
+  --color-btn-orange-shadow: #8c4a00;
+  --color-btn-text: #1a1208;
+  --color-btn-case-light: #f2ede2;
+  --color-btn-case-mid: #dad3c5;
+  --color-btn-case-deep: #c2b9aa;
+  --color-btn-case-border: #8f877a;
+  --color-btn-case-shadow: rgba(54, 47, 39, 0.38);
+
+  --wheel-item: 2.75rem;
+  --wheel-visible: 5;
+  --wheel-bg: #2a2d33;
+  --wheel-fade: rgba(42, 45, 51, 0.94);
+  --wheel-slot: rgba(118, 126, 140, 0.3);
+  --wheel-slot-border: rgba(226, 231, 238, 0.36);
+
+  --font-digits: "Helvetica Neue", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif;
+  --font-ui: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --radius-case: 1.75rem;
+  --radius-tile: 0.5rem;
+  --shadow-case-out:
+    0 0.35rem 0 rgba(0, 0, 0, 0.25),
+    0 1.25rem 2.5rem rgba(0, 0, 0, 0.5);
+  --shadow-case-in: inset 0 1px 0 rgba(255, 255, 255, 0.35), inset 0 -0.5rem 1rem rgba(0, 0, 0, 0.12);
+  --flip-phase-duration: 0.18s;
+  --flip-overlap-delay: 0.18s;
+}

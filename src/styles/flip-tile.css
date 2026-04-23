@@ -1,0 +1,174 @@
+/* Split-flap tiles: hinge line + ribbed lower half + flip motion */
+
+.flip-tile {
+  position: relative;
+  min-width: clamp(3.6rem, 18vw, 5.8rem);
+  height: clamp(4.2rem, 20vw, 5.65rem);
+  border-radius: 0.32rem;
+  background: var(--color-tile-bg);
+  border: 1px solid #1c1f25;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.5),
+    0 2px 6px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+  perspective: 600px;
+  transform-style: preserve-3d;
+}
+
+.flip-tile::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 50%;
+  background:
+    repeating-linear-gradient(
+      180deg,
+      transparent 0,
+      transparent 2px,
+      rgba(255, 255, 255, 0.02) 2px,
+      rgba(255, 255, 255, 0.02) 3px
+    ),
+    linear-gradient(180deg, transparent 0%, var(--color-tile-lower) 100%);
+  pointer-events: none;
+}
+
+.flip-tile::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 2px;
+  margin-top: -1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--color-hinge) 8%,
+    #2a2d34 50%,
+    var(--color-hinge) 92%,
+    transparent 100%
+  );
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.04),
+    0 -1px 0 rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+}
+
+.flip-tile__half,
+.flip-tile__flap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: block;
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(0);
+  will-change: transform, filter, opacity;
+}
+
+.flip-tile__half--top,
+.flip-tile__flap--top {
+  top: 0;
+  height: 50%;
+}
+
+.flip-tile__half--bottom,
+.flip-tile__flap--bottom {
+  bottom: 0;
+  height: 50%;
+}
+
+.flip-tile__half--top,
+.flip-tile__flap--top {
+  transform-origin: bottom center;
+}
+
+.flip-tile__half--bottom,
+.flip-tile__flap--bottom {
+  transform-origin: top center;
+}
+
+.flip-tile__flap--top,
+.flip-tile__flap--bottom {
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.flip-tile__flap .flip-tile__text {
+  text-shadow: none;
+}
+
+.flip-tile__text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 200%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(2.2rem, 10vw, 3.35rem);
+  letter-spacing: 0.02em;
+  line-height: 1;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+  color: var(--color-digit);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+}
+
+.flip-tile__half--top .flip-tile__text,
+.flip-tile__flap--top .flip-tile__text {
+  transform: translateY(0);
+}
+
+.flip-tile__half--bottom .flip-tile__text,
+.flip-tile__flap--bottom .flip-tile__text {
+  transform: translateY(-50%);
+}
+
+.flip-tile.is-flipping .flip-tile__flap--top {
+  opacity: 1;
+  animation: flip-top var(--flip-phase-duration) cubic-bezier(0.3, 0, 0.7, 1) forwards;
+}
+
+.flip-tile.is-flipping .flip-tile__flap--bottom {
+  opacity: 1;
+  animation:
+    flip-bottom var(--flip-phase-duration) cubic-bezier(0.2, 0.95, 0.35, 1)
+    var(--flip-overlap-delay) forwards;
+}
+
+@keyframes flip-top {
+  0% {
+    transform: rotateX(0deg);
+    filter: none;
+  }
+  100% {
+    transform: rotateX(-90deg);
+    filter: none;
+  }
+}
+
+@keyframes flip-bottom {
+  0% {
+    transform: rotateX(90deg);
+    filter: none;
+  }
+  100% {
+    transform: rotateX(0deg);
+    filter: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flip-tile.is-flipping .flip-tile__flap--top,
+  .flip-tile.is-flipping .flip-tile__flap--bottom {
+    animation: none;
+  }
+}

@@ -1,0 +1,28 @@
+/* Recessed inner face around the readout */
+
+.pomodoro-timer__face {
+  position: relative;
+  z-index: 1;
+  padding: clamp(0.85rem, 2.5vw, 1.1rem) clamp(0.75rem, 2vw, 1rem);
+  border-radius: 0.75rem;
+  background: linear-gradient(180deg, #dcd7cc 0%, var(--color-face-recess) 100%);
+  box-shadow:
+    var(--shadow-case-in),
+    inset 0 0 0 1px var(--color-face-border),
+    0 2px 6px rgba(0, 0, 0, 0.16),
+    inset 0 10px 12px rgba(255, 255, 255, 0.18),
+    inset 0 -12px 14px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(107, 102, 93, 0.55);
+}
+
+.pomodoro-timer__face::before {
+  content: "";
+  position: absolute;
+  inset: 0.28rem;
+  border-radius: 0.55rem;
+  border: 1px solid rgba(96, 91, 83, 0.36);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.18);
+  pointer-events: none;
+}

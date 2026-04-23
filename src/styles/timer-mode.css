@@ -1,0 +1,42 @@
+/* Mode column: red indicator + label */
+
+.timer-mode {
+  display: flex;
+  grid-column: 3;
+  justify-self: end;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  flex-shrink: 0;
+  width: 4.5rem;
+  padding-top: 0.15rem;
+}
+
+.timer-mode__led {
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ff6b6b, var(--color-led-on));
+  box-shadow:
+    0 0 0 2px #1a0a0a,
+    0 0 10px var(--color-led-glow),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.35);
+}
+
+.timer-mode__label {
+  margin: 0;
+  width: 100%;
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--color-chrome-label);
+  line-height: 1.25;
+}
+
+/* Dim LED when paused (class toggled from JS) */
+.pomodoro-timer.is-paused .timer-mode__led {
+  background: var(--color-led-off);
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.6);
+}

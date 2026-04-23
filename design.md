@@ -5,7 +5,7 @@ A retro-aesthetic Pomodoro productivity timer for the web, visually inspired by 
 **Design Philosophy**
 
 - Split-flap visual language drawn directly from Twemco BQ-170 and RP-80 clock families
-- Cream (#FAF7F2) as the hero default colorway — warm, paper-like, intentionally analog
+- Cream as the hero default colorway — warm, paper-like, intentionally analog
 - Typography rooted in monospaced / mechanical letterforms to reinforce the clock metaphor
 - Motion restrained and purposeful — every animation earns its place
 - Accessibility-first: the visual design must not come at the cost of usability
@@ -22,11 +22,8 @@ Age 18–34 · Students, freelancers, remote knowledge workers · Heavy social-m
    
 - **Script.js :** all behavior
   - **Template / Component Pattern — Flip Panel**
-  The four digit panels (HH:MM:SS) and the colon separator share near-identical markup. Use a factory function to stamp them from a template rather than duplicating markup:
-    - createFlipPanel(id, digit) — returns a DocumentFragment from an HTML template element
-    - The  in index.html holds the canonical panel structure
-    - Cloned and hydrated for each digit position: minutes-tens, minutes-units, colon, seconds-tens, seconds-units
-    - A single updatePanel(el, newDigit, prevDigit) handles the animation lifecycle for any panel
+  The six digit panels (HH:MM:SS) and the colon separator share near-identical markup. Use a factory function to stamp them from a template rather than duplicating markup:
+    - createFlipPanel — returns a DocumentFragment from an HTML template element
     - Split JS by concern when defining the interactions and functionality, make sure to separate into different concerns to make it easier to find the different sections
     - Include JSDOC-style comments
     - Use template or figure out a way to condense when there are repeat objects, instead of making identical markup
