@@ -6,6 +6,107 @@ function pad2(n) {
   return String(n).padStart(2, '0')
 }
 
+/**
+ * Build a split-flap renderer on top of a timer digits span.
+ * @param {HTMLElement} digitsEl
+ */
+function createFlipTile(digitsEl) {
+  const tile = digitsEl.closest('.flip-tile')
+  if (!(tile instanceof HTMLElement)) {
+    return {
+      setValue(next) {
+        digitsEl.textContent = next
+      },
+    }
+  }
+
+  const initial = digitsEl.textContent?.trim() || '00'
+  digitsEl.remove()
+
+  const topStatic = document.createElement('span')
+  topStatic.className = 'flip-tile__half flip-tile__half--top'
+  const topStaticText = document.createElement('span')
+  topStaticText.className = 'flip-tile__text'
+  topStaticText.textContent = initial
+  topStatic.appendChild(topStaticText)
+
+  const bottomStatic = document.createElement('span')
+  bottomStatic.className = 'flip-tile__half flip-tile__half--bottom'
+  const bottomStaticText = document.createElement('span')
+  bottomStaticText.className = 'flip-tile__text'
+  bottomStaticText.textContent = initial
+  bottomStatic.appendChild(bottomStaticText)
+
+  const topFlap = document.createElement('span')
+  topFlap.className = 'flip-tile__flap flip-tile__flap--top'
+  const topFlapText = document.createElement('span')
+  topFlapText.className = 'flip-tile__text'
+  topFlap.appendChild(topFlapText)
+
+  const bottomFlap = document.createElement('span')
+  bottomFlap.className = 'flip-tile__flap flip-tile__flap--bottom'
+  const bottomFlapText = document.createElement('span')
+  bottomFlapText.className = 'flip-tile__text'
+  bottomFlap.appendChild(bottomFlapText)
+
+  tile.append(topStatic, bottomStatic, topFlap, bottomFlap)
+
+  let current = initial
+  let flipping = false
+  let queued = ''
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
+
+  function commitStatic(next) {
+    topStaticText.textContent = next
+    bottomStaticText.textContent = next
+    current = next
+  }
+
+  function runFlip(next) {
+    flipping = true
+    topFlapText.textContent = current
+    bottomFlapText.textContent = next
+    tile.classList.remove('is-flipping')
+    void tile.offsetWidth
+    tile.classList.add('is-flipping')
+  }
+
+  bottomFlap.addEventListener('animationend', () => {
+    if (!flipping) return
+    tile.classList.remove('is-flipping')
+    flipping = false
+    const next = bottomFlapText.textContent || current
+    commitStatic(next)
+    if (queued && queued !== current) {
+      const pending = queued
+      queued = ''
+      runFlip(pending)
+    }
+  })
+
+  return {
+    /**
+     * @param {string} next
+     * @param {boolean} animate
+     */
+    setValue(next, animate = true) {
+      if (next === current) return
+      if (!animate || reduceMotion.matches) {
+        queued = ''
+        tile.classList.remove('is-flipping')
+        flipping = false
+        commitStatic(next)
+        return
+      }
+      if (flipping) {
+        queued = next
+        return
+      }
+      runFlip(next)
+    },
+  }
+}
+
 /** H:M:S from remaining seconds. */
 function hmsFromRemaining(sec) {
   const h = Math.floor(sec / 3600)
@@ -245,13 +346,6 @@ function initTimerApp() {
   let tickId = 0
   let lastTick = 0
 
-  function applyDurationFromPickers() {
-    totalSeconds = hours * 3600 + minutes * 60 + seconds
-    remaining = totalSeconds
-    updateCountdownDisplay()
-    updateTimerDatetime()
-  }
-
   const wheelH = attachWheel(
     wheelHoursViewport,
     trackHours,
@@ -285,14 +379,25 @@ function initTimerApp() {
     },
   )
 
-  function updateCountdownDisplay() {
+  const flipHours = createFlipTile(elHours)
+  const flipMinutes = createFlipTile(elMinutes)
+  const flipSeconds = createFlipTile(elSeconds)
+
+  function updateCountdownDisplay(animate = false) {
     const { h, m, s } = hmsFromRemaining(remaining)
-    elHours.textContent = pad2(h)
-    elMinutes.textContent = pad2(m)
-    elSeconds.textContent = pad2(s)
+    flipHours.setValue(pad2(h), animate)
+    flipMinutes.setValue(pad2(m), animate)
+    flipSeconds.setValue(pad2(s), animate)
     wheelH.setIndexSilent(h, false)
     wheelM.setIndexSilent(m, false)
     wheelS.setIndexSilent(s, false)
+  }
+
+  function applyDurationFromPickers() {
+    totalSeconds = hours * 3600 + minutes * 60 + seconds
+    remaining = totalSeconds
+    updateCountdownDisplay(false)
+    updateTimerDatetime()
   }
 
   function updateTimerDatetime() {
@@ -333,7 +438,7 @@ function initTimerApp() {
       const steps = Math.floor(delta / MS)
       lastTick += steps * MS
       remaining = Math.max(0, remaining - steps)
-      updateCountdownDisplay()
+      updateCountdownDisplay(true)
       updateTimerDatetime()
       if (remaining === 0) {
         stopTimer()
@@ -372,7 +477,7 @@ function initTimerApp() {
     wheelS.remeasure()
   })
 
-  updateCountdownDisplay()
+  updateCountdownDisplay(false)
   updateTimerDatetime()
   refreshUiState()
 
@@ -385,7 +490,7 @@ function initTimerApp() {
     stopTimer()
     totalSeconds = hours * 3600 + minutes * 60 + seconds
     remaining = totalSeconds
-    updateCountdownDisplay()
+    updateCountdownDisplay(false)
     updateTimerDatetime()
     refreshUiState()
     setMode('Set')

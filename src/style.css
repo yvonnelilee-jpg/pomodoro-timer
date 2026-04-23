@@ -396,7 +396,7 @@ body {
 .flip-tile {
   position: relative;
   min-width: clamp(3.1rem, 16vw, 5.25rem);
-  padding: clamp(0.55rem, 2vw, 0.75rem) clamp(0.45rem, 1.5vw, 0.65rem);
+  height: clamp(4.2rem, 20vw, 5.65rem);
   border-radius: 0.32rem;
   background: var(--color-tile-bg);
   border: 1px solid #1c1f25;
@@ -448,13 +448,105 @@ body {
   pointer-events: none;
 }
 
-.flip-tile__digits {
+.flip-tile__half,
+.flip-tile__flap {
+  position: absolute;
+  left: clamp(0.45rem, 1.5vw, 0.65rem);
+  right: clamp(0.45rem, 1.5vw, 0.65rem);
+  display: block;
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.flip-tile__half--top,
+.flip-tile__flap--top {
+  top: clamp(0.55rem, 2vw, 0.75rem);
+  height: calc(50% - clamp(0.55rem, 2vw, 0.75rem));
+}
+
+.flip-tile__half--bottom,
+.flip-tile__flap--bottom {
+  bottom: clamp(0.55rem, 2vw, 0.75rem);
+  height: calc(50% - clamp(0.55rem, 2vw, 0.75rem));
+}
+
+.flip-tile__half--top,
+.flip-tile__flap--top {
+  transform-origin: bottom center;
+}
+
+.flip-tile__half--bottom,
+.flip-tile__flap--bottom {
+  transform-origin: top center;
+}
+
+.flip-tile__flap--top,
+.flip-tile__flap--bottom {
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.flip-tile__text {
   position: relative;
-  z-index: 1;
   display: block;
   text-align: center;
   font-size: clamp(2.5rem, 12vw, 4rem);
   letter-spacing: 0.02em;
+  line-height: 1;
+  font-weight: 700;
+  color: var(--color-digit);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+}
+
+.flip-tile__half--top .flip-tile__text,
+.flip-tile__flap--top .flip-tile__text {
+  transform: translateY(0.02em);
+}
+
+.flip-tile__half--bottom .flip-tile__text,
+.flip-tile__flap--bottom .flip-tile__text {
+  transform: translateY(calc(-50% + 0.06em));
+}
+
+.flip-tile.is-flipping .flip-tile__flap--top {
+  opacity: 1;
+  animation: flip-top 0.32s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.flip-tile.is-flipping .flip-tile__flap--bottom {
+  opacity: 1;
+  animation: flip-bottom 0.32s cubic-bezier(0.2, 0.8, 0.2, 1) 0.32s forwards;
+}
+
+@keyframes flip-top {
+  0% {
+    transform: rotateX(0deg);
+    filter: brightness(1);
+  }
+  100% {
+    transform: rotateX(-90deg);
+    filter: brightness(0.72);
+  }
+}
+
+@keyframes flip-bottom {
+  0% {
+    transform: rotateX(90deg);
+    filter: brightness(0.74);
+  }
+  100% {
+    transform: rotateX(0deg);
+    filter: brightness(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flip-tile.is-flipping .flip-tile__flap--top,
+  .flip-tile.is-flipping .flip-tile__flap--bottom {
+    animation: none;
+  }
 }
 
 /* Mode column: red indicator + label */
