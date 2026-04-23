@@ -395,7 +395,7 @@ body {
 
 .flip-tile {
   position: relative;
-  min-width: clamp(3.1rem, 16vw, 5.25rem);
+  min-width: clamp(3.6rem, 18vw, 5.8rem);
   height: clamp(4.2rem, 20vw, 5.65rem);
   border-radius: 0.32rem;
   background: var(--color-tile-bg);
@@ -451,8 +451,8 @@ body {
 .flip-tile__half,
 .flip-tile__flap {
   position: absolute;
-  left: clamp(0.45rem, 1.5vw, 0.65rem);
-  right: clamp(0.45rem, 1.5vw, 0.65rem);
+  left: 0;
+  right: 0;
   display: block;
   overflow: hidden;
   backface-visibility: hidden;
@@ -461,14 +461,14 @@ body {
 
 .flip-tile__half--top,
 .flip-tile__flap--top {
-  top: clamp(0.55rem, 2vw, 0.75rem);
-  height: calc(50% - clamp(0.55rem, 2vw, 0.75rem));
+  top: 0;
+  height: 50%;
 }
 
 .flip-tile__half--bottom,
 .flip-tile__flap--bottom {
-  bottom: clamp(0.55rem, 2vw, 0.75rem);
-  height: calc(50% - clamp(0.55rem, 2vw, 0.75rem));
+  bottom: 0;
+  height: 50%;
 }
 
 .flip-tile__half--top,
@@ -489,25 +489,32 @@ body {
 }
 
 .flip-tile__text {
-  position: relative;
-  display: block;
-  text-align: center;
-  font-size: clamp(2.5rem, 12vw, 4rem);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 200%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(2.2rem, 10vw, 3.35rem);
   letter-spacing: 0.02em;
   line-height: 1;
   font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
   color: var(--color-digit);
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
 }
 
 .flip-tile__half--top .flip-tile__text,
 .flip-tile__flap--top .flip-tile__text {
-  transform: translateY(0.02em);
+  transform: translateY(0);
 }
 
 .flip-tile__half--bottom .flip-tile__text,
 .flip-tile__flap--bottom .flip-tile__text {
-  transform: translateY(calc(-50% + 0.06em));
+  transform: translateY(-50%);
 }
 
 .flip-tile.is-flipping .flip-tile__flap--top {
