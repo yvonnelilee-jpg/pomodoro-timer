@@ -67,6 +67,8 @@ function attachWheel(viewport, track, max, kind, onCommit) {
   let dragPointerId = null
   let dragStartClientY = 0
   let dragStartTranslate = 0
+  let isMouseDragging = false
+  let isTouchDragging = false
 
   function tyForIndex(i) {
     const H = viewport.clientHeight
@@ -113,9 +115,16 @@ function attachWheel(viewport, track, max, kind, onCommit) {
 
   function endDrag() {
     dragPointerId = null
+    isMouseDragging = false
+    isTouchDragging = false
     document.removeEventListener('pointermove', onDocMove)
     document.removeEventListener('pointerup', onDocUp)
     document.removeEventListener('pointercancel', onDocUp)
+    document.removeEventListener('mousemove', onMouseMove)
+    document.removeEventListener('mouseup', onMouseUp)
+    document.removeEventListener('touchmove', onTouchMove)
+    document.removeEventListener('touchend', onTouchEnd)
+    document.removeEventListener('touchcancel', onTouchEnd)
     setIndex(indexFromTy(translateY), true, true)
   }
 
@@ -134,10 +143,41 @@ function attachWheel(viewport, track, max, kind, onCommit) {
     endDrag()
   }
 
+  /** @param {MouseEvent} e */
+  function onMouseMove(e) {
+    if (!isMouseDragging) return
+    const dy = e.clientY - dragStartClientY
+    translateY = clampTy(dragStartTranslate + dy)
+    track.style.transition = 'none'
+    track.style.transform = `translate3d(0, ${translateY}px, 0)`
+    setVisualRow(indexFromTy(translateY))
+  }
+
+  function onMouseUp() {
+    if (!isMouseDragging) return
+    endDrag()
+  }
+
+  /** @param {TouchEvent} e */
+  function onTouchMove(e) {
+    if (!isTouchDragging || e.touches.length === 0) return
+    const touch = e.touches[0]
+    const dy = touch.clientY - dragStartClientY
+    translateY = clampTy(dragStartTranslate + dy)
+    track.style.transition = 'none'
+    track.style.transform = `translate3d(0, ${translateY}px, 0)`
+    setVisualRow(indexFromTy(translateY))
+  }
+
+  function onTouchEnd() {
+    if (!isTouchDragging) return
+    endDrag()
+  }
+
   viewport.addEventListener('pointerdown', (e) => {
     if (viewport.classList.contains('wheel-picker__viewport--disabled')) return
-    if (e.button !== 0) return
-    e.preventDefault()
+    // Safari/touch can report non-zero buttons on pointer events.
+    if (e.pointerType === 'mouse' && e.button !== 0) return
     viewport.focus({ preventScroll: true })
     dragPointerId = e.pointerId
     dragStartClientY = e.clientY
@@ -146,6 +186,47 @@ function attachWheel(viewport, track, max, kind, onCommit) {
     document.addEventListener('pointerup', onDocUp)
     document.addEventListener('pointercancel', onDocUp)
   })
+
+  track.addEventListener('click', (e) => {
+    if (viewport.classList.contains('wheel-picker__viewport--disabled')) return
+    const target = e.target instanceof Element ? e.target.closest('.wheel-picker__item') : null
+    if (!(target instanceof HTMLElement)) return
+    const value = Number(target.dataset.value)
+    if (!Number.isFinite(value)) return
+    setIndex(value, true, true)
+    viewport.focus({ preventScroll: true })
+  })
+
+  // Fallback for environments with limited Pointer Events support.
+  if (!('PointerEvent' in window)) {
+    viewport.addEventListener('mousedown', (e) => {
+      if (viewport.classList.contains('wheel-picker__viewport--disabled')) return
+      if (e.button !== 0) return
+      viewport.focus({ preventScroll: true })
+      isMouseDragging = true
+      dragStartClientY = e.clientY
+      dragStartTranslate = translateY
+      document.addEventListener('mousemove', onMouseMove)
+      document.addEventListener('mouseup', onMouseUp)
+    })
+
+    viewport.addEventListener(
+      'touchstart',
+      (e) => {
+        if (viewport.classList.contains('wheel-picker__viewport--disabled')) return
+        if (e.touches.length === 0) return
+        const touch = e.touches[0]
+        viewport.focus({ preventScroll: true })
+        isTouchDragging = true
+        dragStartClientY = touch.clientY
+        dragStartTranslate = translateY
+        document.addEventListener('touchmove', onTouchMove, { passive: true })
+        document.addEventListener('touchend', onTouchEnd)
+        document.addEventListener('touchcancel', onTouchEnd)
+      },
+      { passive: true },
+    )
+  }
 
   viewport.addEventListener(
     'wheel',
