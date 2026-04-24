@@ -7,6 +7,7 @@ import { pad2, hmsFromRemaining } from './time-utils.js'
 import { createFlipTile } from './flip-tile.js'
 import { mountWheelPickerColumns, attachWheel } from './wheel-picker.js'
 import { playCompletionSound, stopCompletionSound } from './completion-sound.js'
+import { runWheelCompletionCelebration } from './completion-celebration.js'
 
 /**
  * Query required elements and start listeners. No-op if DOM is incomplete.
@@ -72,6 +73,8 @@ export function initTimerApp() {
   let running = false
   let tickId = 0
   let lastTick = 0
+  /** @type {AbortController | null} */
+  let celebrationAbort = null
 
   const specH = DURATION_WHEEL_SPECS[0]
   const specM = DURATION_WHEEL_SPECS[1]
@@ -131,6 +134,16 @@ export function initTimerApp() {
     updateTimerDatetime()
   }
 
+  /** Restore readout and wheels to the full length of the current session (`totalSeconds`). */
+  function restoreSessionDuration() {
+    const { h, m, s } = hmsFromRemaining(totalSeconds)
+    hours = h
+    minutes = m
+    seconds = s
+    applyDurationFromPickers()
+    refreshUiState()
+  }
+
   function updateTimerDatetime() {
     const { h, m, s } = hmsFromRemaining(remaining)
     timerDisplay.setAttribute('datetime', `PT${h}H${m}M${s}S`)
@@ -176,6 +189,13 @@ export function initTimerApp() {
         stopTimer()
         setMode('Done')
         playCompletionSound()
+        celebrationAbort?.abort()
+        const ac = new AbortController()
+        celebrationAbort = ac
+        void runWheelCompletionCelebration(durationWheels, { signal: ac.signal }).finally(() => {
+          if (celebrationAbort === ac) celebrationAbort = null
+          if (!ac.signal.aborted) restoreSessionDuration()
+        })
       }
     }
     tickId = requestAnimationFrame(onTick)
@@ -221,13 +241,9 @@ export function initTimerApp() {
   })
 
   resetBtn.addEventListener('click', () => {
+    celebrationAbort?.abort()
     stopCompletionSound()
     stopTimer()
-    totalSeconds = hours * 3600 + minutes * 60 + seconds
-    remaining = totalSeconds
-    updateCountdownDisplay(false)
-    updateTimerDatetime()
-    refreshUiState()
-    setMode('Set')
+    restoreSessionDuration()
   })
 }

@@ -1,0 +1,17 @@
+/* Pixel confetti overlay on the wheel card when the countdown finishes */
+
+.wheel-picker--celebrating .wheel-picker__celebration-canvas {
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+    0 2px 8px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(18, 19, 22, 0.9);
+}
+
+.wheel-picker__celebration-canvas {
+  position: absolute;
+  z-index: 24;
+  pointer-events: auto;
+  display: block;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
