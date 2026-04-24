@@ -183,7 +183,8 @@ export function initTimerApp() {
       const steps = Math.floor(delta / MS_PER_SECOND)
       lastTick += steps * MS_PER_SECOND
       remaining = Math.max(0, remaining - steps)
-      updateCountdownDisplay(true)
+      // Keep flip-tile logic available, but disable flip animation while ticking.
+      updateCountdownDisplay(false)
       updateTimerDatetime()
       if (remaining === 0) {
         stopTimer()
