@@ -6,6 +6,7 @@ import { MS_PER_SECOND, DURATION_WHEEL_SPECS } from './constants.js'
 import { pad2, hmsFromRemaining } from './time-utils.js'
 import { createFlipTile } from './flip-tile.js'
 import { mountWheelPickerColumns, attachWheel } from './wheel-picker.js'
+import { playCompletionSound, stopCompletionSound } from './completion-sound.js'
 
 /**
  * Query required elements and start listeners. No-op if DOM is incomplete.
@@ -174,6 +175,7 @@ export function initTimerApp() {
       if (remaining === 0) {
         stopTimer()
         setMode('Done')
+        playCompletionSound()
       }
     }
     tickId = requestAnimationFrame(onTick)
@@ -182,6 +184,7 @@ export function initTimerApp() {
   function startTimer() {
     const planned = hours * 3600 + minutes * 60 + seconds
     if (planned <= 0) return
+    stopCompletionSound()
     if (remaining <= 0 || remaining === totalSeconds) {
       totalSeconds = planned
       remaining = totalSeconds
@@ -218,6 +221,7 @@ export function initTimerApp() {
   })
 
   resetBtn.addEventListener('click', () => {
+    stopCompletionSound()
     stopTimer()
     totalSeconds = hours * 3600 + minutes * 60 + seconds
     remaining = totalSeconds

@@ -4,7 +4,7 @@ A retro-aesthetic Pomodoro productivity timer for the web, visually inspired by 
 
 **Design Philosophy**
 
-- Split-flap visual language drawn directly from Twemco BQ-170 and RP-80 clock families
+- Split-flap visual language drawn directly from Twemco BQ-170 and QT-30clock families
 - Cream as the hero default colorway — warm, paper-like, intentionally analog
 - Typography rooted in monospaced / mechanical letterforms to reinforce the clock metaphor
 - Motion restrained and purposeful — every animation earns its place

@@ -5,6 +5,9 @@
 /** Milliseconds per second (used with `requestAnimationFrame` pacing). */
 export const MS_PER_SECOND = 1000
 
+/** Cap for completion alert playback (`public/audio/lofi-alert.mp3`). */
+export const COMPLETION_SOUND_MAX_MS = 5000
+
 /**
  * @typedef {'hours' | 'minutes' | 'seconds'} WheelKind
  */
