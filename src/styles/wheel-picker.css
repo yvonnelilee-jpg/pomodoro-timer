@@ -30,29 +30,35 @@
 
 .wheel-picker__chrome {
   position: relative;
-  border-radius: 0.38rem;
-  background: var(--wheel-bg);
+  z-index: 2;
+  padding: clamp(0.35rem, 1.2vw, 0.55rem) clamp(0.32rem, 1vw, 0.5rem);
+  border-radius: 0.75rem;
+  background: linear-gradient(180deg, #dcd7cc 0%, var(--color-face-recess) 100%);
   box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.05),
-    0 2px 8px rgba(0, 0, 0, 0.25),
-    inset 0 12px 18px rgba(255, 255, 255, 0.03),
-    inset 0 -8px 14px rgba(0, 0, 0, 0.26);
-  border: 1px solid rgba(18, 19, 22, 0.9);
+    var(--shadow-case-in),
+    inset 0 0 0 1px var(--color-face-border),
+    0 3px 7px rgba(0, 0, 0, 0.22),
+    inset 0 10px 12px rgba(255, 255, 255, 0.18),
+    inset 0 -12px 14px rgba(0, 0, 0, 0.12),
+    inset 0 -18px 18px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(107, 102, 93, 0.55);
   overflow: hidden;
 }
 
+/* Inner bezel ring — matches `.pomodoro-timer__face::before` */
 .wheel-picker__chrome::before {
   content: "";
   position: absolute;
-  inset: 0;
+  inset: 0.28rem;
+  border-radius: 0.55rem;
+  border: 1px solid rgba(96, 91, 83, 0.36);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.18),
+    inset 0 8px 10px rgba(255, 255, 255, 0.08),
+    inset 0 -10px 12px rgba(0, 0, 0, 0.14);
   pointer-events: none;
-  background: linear-gradient(
-    145deg,
-    rgba(255, 255, 255, 0.16) 0%,
-    rgba(255, 255, 255, 0.04) 20%,
-    transparent 42%
-  );
-  z-index: 3;
+  z-index: 0;
 }
 
 .wheel-picker__headings {
@@ -74,11 +80,15 @@
 }
 
 .wheel-picker__columns {
+  position: relative;
   display: flex;
   align-items: stretch;
   justify-content: stretch;
   width: 100%;
   min-height: calc(var(--wheel-item) * var(--wheel-visible));
+  border-radius: 0.5rem;
+  background: var(--wheel-bg);
+  overflow: hidden;
 }
 
 .wheel-picker__column {

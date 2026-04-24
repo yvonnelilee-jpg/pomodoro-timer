@@ -10,6 +10,9 @@ import { playCompletionSound, stopCompletionSound } from './completion-sound.js'
 import { runWheelCompletionCelebration } from './completion-celebration.js'
 import { runWheelRunningAnimation } from './running-wheel-animation.js'
 
+/** Minute values shown in the preset knob (hours and seconds cleared when applied). */
+const PRESET_MINUTES = Object.freeze([5, 10, 15, 25, 50])
+
 /**
  * Query required elements and start listeners. No-op if DOM is incomplete.
  */
@@ -26,6 +29,7 @@ export function initTimerApp() {
   const startPauseBtn = document.getElementById('start-pause-btn')
   const resetBtn = document.getElementById('reset-btn')
   const themeSelect = document.getElementById('theme-select')
+  const presetSelect = document.getElementById('preset-duration-select')
 
   if (
     !root ||
@@ -38,7 +42,8 @@ export function initTimerApp() {
     !timerDisplay ||
     !startPauseBtn ||
     !resetBtn ||
-    !(themeSelect instanceof HTMLSelectElement)
+    !(themeSelect instanceof HTMLSelectElement) ||
+    !(presetSelect instanceof HTMLSelectElement)
   ) {
     console.error('[pomodoro] Missing required DOM nodes; timer not initialized.')
     return
@@ -147,6 +152,13 @@ export function initTimerApp() {
     }
   }
 
+  function syncPresetSelectFromTotal() {
+    const { h, m, s } = hmsFromRemaining(totalSeconds)
+    const matchPreset =
+      h === 0 && s === 0 && PRESET_MINUTES.includes(m) ? String(m) : 'custom'
+    presetSelect.value = matchPreset
+  }
+
   function updateCountdownDisplay(animate = false) {
     const { h, m, s } = hmsFromRemaining(remaining)
     flipHours.setValue(pad2(h), animate)
@@ -162,6 +174,7 @@ export function initTimerApp() {
     remaining = totalSeconds
     updateCountdownDisplay(false)
     updateTimerDatetime()
+    syncPresetSelectFromTotal()
   }
 
   /** Restore readout and wheels to the full length of the current session (`totalSeconds`). */
@@ -191,6 +204,7 @@ export function initTimerApp() {
     wheelHoursViewport.classList.toggle('wheel-picker__viewport--disabled', running)
     wheelMinutesViewport.classList.toggle('wheel-picker__viewport--disabled', running)
     wheelSecondsViewport.classList.toggle('wheel-picker__viewport--disabled', running)
+    presetSelect.disabled = running
     if (running) setMode('Run')
     else if (remaining <= 0) setMode('Done')
     else if (remaining < totalSeconds) setMode('Pause')
@@ -274,6 +288,7 @@ export function initTimerApp() {
 
   updateCountdownDisplay(false)
   updateTimerDatetime()
+  syncPresetSelectFromTotal()
   const savedTheme = (() => {
     try {
       return window.localStorage.getItem(THEME_KEY) || 'parchment'
@@ -286,6 +301,17 @@ export function initTimerApp() {
 
   themeSelect.addEventListener('change', () => {
     applyTheme(themeSelect.value)
+  })
+
+  presetSelect.addEventListener('change', () => {
+    if (presetSelect.value === 'custom') return
+    const next = Number.parseInt(presetSelect.value, 10)
+    if (!Number.isFinite(next) || !PRESET_MINUTES.includes(next)) return
+    hours = 0
+    minutes = next
+    seconds = 0
+    applyDurationFromPickers()
+    refreshUiState()
   })
 
   startPauseBtn.addEventListener('click', () => {

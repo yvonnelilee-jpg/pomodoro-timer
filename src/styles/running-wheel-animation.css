@@ -5,10 +5,11 @@
   z-index: 18;
   display: block;
   pointer-events: none;
-  border: 1px solid rgba(18, 19, 22, 0.9);
+  border: 1px solid rgba(107, 102, 93, 0.55);
   box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.05),
-    0 2px 8px rgba(0, 0, 0, 0.24);
+    var(--shadow-case-in),
+    inset 0 0 0 1px var(--color-face-border),
+    0 3px 7px rgba(0, 0, 0, 0.22);
 }
 
 .wheel-picker--animating .wheel-picker__columns,
@@ -19,7 +20,6 @@
 
 .wheel-picker--animating .wheel-picker__columns,
 .wheel-picker--animating .wheel-picker__highlight,
-.wheel-picker--animating .wheel-picker__fade,
-.wheel-picker--animating .wheel-picker__chrome::before {
+.wheel-picker--animating .wheel-picker__fade {
   transition: opacity 0.18s ease;
 }

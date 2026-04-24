@@ -7,6 +7,14 @@
   background: linear-gradient(180deg, #4f1408 0%, #3c0f05 100%);
   border-color: rgba(38, 10, 5, 0.62);
 }
+.pomodoro-timer[data-theme='oxblood'] .wheel-picker__chrome {
+  background: linear-gradient(180deg, #4f1408 0%, #3c0f05 100%);
+  border-color: rgba(38, 10, 5, 0.62);
+}
+.pomodoro-timer[data-theme='oxblood'] .wheel-picker__running-canvas,
+.pomodoro-timer[data-theme='oxblood'] .wheel-picker--celebrating .wheel-picker__celebration-canvas {
+  border-color: rgba(38, 10, 5, 0.62);
+}
 .pomodoro-timer[data-theme='oxblood'] .timer-controls__btn {
   background: linear-gradient(180deg, #6a2013 0%, #4f160d 48%, #3a1008 100%);
   border-color: #2f0a05;
@@ -27,6 +35,14 @@
 }
 .pomodoro-timer[data-theme='parchment'] .pomodoro-timer__face {
   background: linear-gradient(180deg, #e5d8c7 0%, #d0c0ad 100%);
+  border-color: rgba(109, 95, 79, 0.52);
+}
+.pomodoro-timer[data-theme='parchment'] .wheel-picker__chrome {
+  background: linear-gradient(180deg, #e5d8c7 0%, #d0c0ad 100%);
+  border-color: rgba(109, 95, 79, 0.52);
+}
+.pomodoro-timer[data-theme='parchment'] .wheel-picker__running-canvas,
+.pomodoro-timer[data-theme='parchment'] .wheel-picker--celebrating .wheel-picker__celebration-canvas {
   border-color: rgba(109, 95, 79, 0.52);
 }
 .pomodoro-timer[data-theme='parchment'] .timer-controls__btn {
@@ -51,6 +67,14 @@
   background: linear-gradient(180deg, #555555 0%, #353535 100%);
   border-color: rgba(22, 22, 22, 0.62);
 }
+.pomodoro-timer[data-theme='brick'] .wheel-picker__chrome {
+  background: linear-gradient(180deg, #555555 0%, #353535 100%);
+  border-color: rgba(22, 22, 22, 0.62);
+}
+.pomodoro-timer[data-theme='brick'] .wheel-picker__running-canvas,
+.pomodoro-timer[data-theme='brick'] .wheel-picker--celebrating .wheel-picker__celebration-canvas {
+  border-color: rgba(22, 22, 22, 0.62);
+}
 .pomodoro-timer[data-theme='brick'] .timer-controls__btn {
   background: linear-gradient(180deg, #676767 0%, #494949 48%, #323232 100%);
   border-color: #262626;
@@ -73,6 +97,14 @@
   background: linear-gradient(180deg, #3f8688 0%, #2a6466 100%);
   border-color: rgba(20, 63, 65, 0.56);
 }
+.pomodoro-timer[data-theme='turquoise'] .wheel-picker__chrome {
+  background: linear-gradient(180deg, #3f8688 0%, #2a6466 100%);
+  border-color: rgba(20, 63, 65, 0.56);
+}
+.pomodoro-timer[data-theme='turquoise'] .wheel-picker__running-canvas,
+.pomodoro-timer[data-theme='turquoise'] .wheel-picker--celebrating .wheel-picker__celebration-canvas {
+  border-color: rgba(20, 63, 65, 0.56);
+}
 .pomodoro-timer[data-theme='turquoise'] .timer-controls__btn {
   background: linear-gradient(180deg, #58a7aa 0%, #3d878a 48%, #2a6769 100%);
   border-color: #1f5758;
@@ -93,6 +125,14 @@
 }
 .pomodoro-timer[data-theme='olive'] .pomodoro-timer__face {
   background: linear-gradient(180deg, #7b6e4e 0%, #5e543d 100%);
+  border-color: rgba(59, 52, 37, 0.58);
+}
+.pomodoro-timer[data-theme='olive'] .wheel-picker__chrome {
+  background: linear-gradient(180deg, #7b6e4e 0%, #5e543d 100%);
+  border-color: rgba(59, 52, 37, 0.58);
+}
+.pomodoro-timer[data-theme='olive'] .wheel-picker__running-canvas,
+.pomodoro-timer[data-theme='olive'] .wheel-picker--celebrating .wheel-picker__celebration-canvas {
   border-color: rgba(59, 52, 37, 0.58);
 }
 .pomodoro-timer[data-theme='olive'] .timer-controls__btn {
