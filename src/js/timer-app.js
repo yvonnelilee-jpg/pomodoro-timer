@@ -8,6 +8,7 @@ import { createFlipTile } from './flip-tile.js'
 import { mountWheelPickerColumns, attachWheel } from './wheel-picker.js'
 import { playCompletionSound, stopCompletionSound } from './completion-sound.js'
 import { runWheelCompletionCelebration } from './completion-celebration.js'
+import { runWheelRunningAnimation } from './running-wheel-animation.js'
 
 /**
  * Query required elements and start listeners. No-op if DOM is incomplete.
@@ -75,6 +76,8 @@ export function initTimerApp() {
   let lastTick = 0
   /** @type {AbortController | null} */
   let celebrationAbort = null
+  /** @type {AbortController | null} */
+  let runningAnimationAbort = null
 
   const specH = DURATION_WHEEL_SPECS[0]
   const specM = DURATION_WHEEL_SPECS[1]
@@ -171,6 +174,8 @@ export function initTimerApp() {
     running = false
     if (tickId) cancelAnimationFrame(tickId)
     tickId = 0
+    runningAnimationAbort?.abort()
+    runningAnimationAbort = null
     refreshUiState()
   }
 
@@ -212,6 +217,12 @@ export function initTimerApp() {
     }
     running = true
     lastTick = 0
+    runningAnimationAbort?.abort()
+    const ac = new AbortController()
+    runningAnimationAbort = ac
+    void runWheelRunningAnimation(durationWheels, { signal: ac.signal }).finally(() => {
+      if (runningAnimationAbort === ac) runningAnimationAbort = null
+    })
     refreshUiState()
     tickId = requestAnimationFrame(onTick)
   }
@@ -220,6 +231,8 @@ export function initTimerApp() {
     running = false
     if (tickId) cancelAnimationFrame(tickId)
     tickId = 0
+    runningAnimationAbort?.abort()
+    runningAnimationAbort = null
     refreshUiState()
   }
 

@@ -7,6 +7,7 @@
 @import './styles/base.css';
 @import './styles/pomodoro-shell.css';
 @import './styles/wheel-picker.css';
+@import './styles/running-wheel-animation.css';
 @import './styles/completion-celebration.css';
 @import './styles/timer-face.css';
 @import './styles/timer-readout.css';
