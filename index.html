@@ -34,15 +34,25 @@
                         <option value="25" selected>25 min</option>
                         <option value="50">50 min</option>
                     </select>
+                    <select id="screen-content-select" class="timer-controls__theme-select" aria-label="Screen content">
+                        <option value="duration" selected>Timer</option>
+                        <option value="trex">Dino</option>
+                    </select>
                 </div>
                 <div class="tamagotchi-screen">
                     <section class="timer-setup" aria-label="Set duration">
                         <div id="duration-wheels" class="wheel-picker">
                             <div class="wheel-picker__chrome">
-                                <div class="wheel-picker__fade wheel-picker__fade--top" aria-hidden="true"></div>
-                                <div class="wheel-picker__fade wheel-picker__fade--bottom" aria-hidden="true"></div>
-                                <div class="wheel-picker__highlight" aria-hidden="true"></div>
-                                <div class="wheel-picker__columns" id="wheel-picker-columns"></div>
+                                <div id="wheel-picker-panel-wheels" class="wheel-picker__panel wheel-picker__panel--wheels">
+                                    <div class="wheel-picker__fade wheel-picker__fade--top" aria-hidden="true"></div>
+                                    <div class="wheel-picker__fade wheel-picker__fade--bottom" aria-hidden="true"></div>
+                                    <div class="wheel-picker__highlight" aria-hidden="true"></div>
+                                    <div class="wheel-picker__columns" id="wheel-picker-columns"></div>
+                                </div>
+                                <div id="wheel-picker-panel-trex" class="wheel-picker__panel wheel-picker__panel--trex" hidden>
+                                    <p class="wheel-picker__trex-hint" id="trex-hint" aria-hidden="true">Space / tap to start · ↓ to duck</p>
+                                    <div id="pomodoro-trex-embed-host" class="wheel-picker__trex-host"></div>
+                                </div>
                             </div>
                         </div>
                     </section>

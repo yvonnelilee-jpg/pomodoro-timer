@@ -6,6 +6,7 @@ import { MS_PER_SECOND, DURATION_WHEEL_SPECS } from './constants.js'
 import { pad2, hmsFromRemaining } from './time-utils.js'
 import { createFlipTile } from './flip-tile.js'
 import { mountWheelPickerColumns, attachWheel } from './wheel-picker.js'
+import { ensurePomodoroTrex, pausePomodoroTrexInput } from '../trex-embed.js'
 import { playCompletionSound, stopCompletionSound } from './completion-sound.js'
 import { runWheelCompletionCelebration } from './completion-celebration.js'
 import { runWheelRunningAnimation } from './running-wheel-animation.js'
@@ -30,6 +31,10 @@ export function initTimerApp() {
   const resetBtn = document.getElementById('reset-btn')
   const themeSelect = document.getElementById('theme-select')
   const presetSelect = document.getElementById('preset-duration-select')
+  const screenContentSelect = document.getElementById('screen-content-select')
+  const wheelPanelWheels = document.getElementById('wheel-picker-panel-wheels')
+  const wheelPanelTrex = document.getElementById('wheel-picker-panel-trex')
+  const trexEmbedHost = document.getElementById('pomodoro-trex-embed-host')
 
   if (
     !root ||
@@ -43,7 +48,11 @@ export function initTimerApp() {
     !startPauseBtn ||
     !resetBtn ||
     !(themeSelect instanceof HTMLSelectElement) ||
-    !(presetSelect instanceof HTMLSelectElement)
+    !(presetSelect instanceof HTMLSelectElement) ||
+    !(screenContentSelect instanceof HTMLSelectElement) ||
+    !wheelPanelWheels ||
+    !wheelPanelTrex ||
+    !trexEmbedHost
   ) {
     console.error('[pomodoro] Missing required DOM nodes; timer not initialized.')
     return
@@ -86,6 +95,9 @@ export function initTimerApp() {
   let celebrationAbort = null
   /** @type {AbortController | null} */
   let runningAnimationAbort = null
+
+  /** @type {'duration' | 'trex'} */
+  let screenContentMode = 'duration'
 
   const specH = DURATION_WHEEL_SPECS[0]
   const specM = DURATION_WHEEL_SPECS[1]
@@ -196,6 +208,36 @@ export function initTimerApp() {
     modeEl.textContent = text
   }
 
+  function maybeStartRunningWheelOverlay() {
+    if (!running || screenContentMode !== 'duration') return
+    runningAnimationAbort?.abort()
+    const ac = new AbortController()
+    runningAnimationAbort = ac
+    void runWheelRunningAnimation(durationWheels, { signal: ac.signal }).finally(() => {
+      if (runningAnimationAbort === ac) runningAnimationAbort = null
+    })
+  }
+
+  /**
+   * @param {'duration' | 'trex'} mode
+   */
+  function applyScreenContentMode(mode) {
+    if (mode !== 'duration' && mode !== 'trex') return
+    screenContentMode = mode
+    if (mode === 'duration') {
+      wheelPanelTrex.hidden = true
+      wheelPanelWheels.hidden = false
+      pausePomodoroTrexInput()
+      maybeStartRunningWheelOverlay()
+    } else {
+      runningAnimationAbort?.abort()
+      runningAnimationAbort = null
+      wheelPanelWheels.hidden = true
+      wheelPanelTrex.hidden = false
+      void ensurePomodoroTrex(trexEmbedHost)
+    }
+  }
+
   function refreshUiState() {
     root.classList.toggle('is-running', running)
     root.classList.toggle('is-paused', !running && remaining < totalSeconds && remaining > 0)
@@ -205,6 +247,7 @@ export function initTimerApp() {
     wheelMinutesViewport.classList.toggle('wheel-picker__viewport--disabled', running)
     wheelSecondsViewport.classList.toggle('wheel-picker__viewport--disabled', running)
     presetSelect.disabled = running
+    screenContentSelect.disabled = running
     if (running) setMode('Run')
     else if (remaining <= 0) setMode('Done')
     else if (remaining < totalSeconds) setMode('Pause')
@@ -258,12 +301,7 @@ export function initTimerApp() {
     }
     running = true
     lastTick = 0
-    runningAnimationAbort?.abort()
-    const ac = new AbortController()
-    runningAnimationAbort = ac
-    void runWheelRunningAnimation(durationWheels, { signal: ac.signal }).finally(() => {
-      if (runningAnimationAbort === ac) runningAnimationAbort = null
-    })
+    maybeStartRunningWheelOverlay()
     refreshUiState()
     tickId = requestAnimationFrame(onTick)
   }
@@ -312,6 +350,13 @@ export function initTimerApp() {
     seconds = 0
     applyDurationFromPickers()
     refreshUiState()
+  })
+
+  screenContentSelect.addEventListener('change', () => {
+    const v = screenContentSelect.value
+    if (v === 'duration' || v === 'trex') {
+      applyScreenContentMode(v)
+    }
   })
 
   startPauseBtn.addEventListener('click', () => {

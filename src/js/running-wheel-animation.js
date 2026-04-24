@@ -2,6 +2,8 @@
  * Ambient animation overlay shown in the wheel card while the timer runs.
  */
 
+import { getWheelPickerLayoutTarget } from './wheel-picker.js'
+
 const SHAPE_COUNT = 46
 const ORB_COUNT = 8
 
@@ -16,9 +18,9 @@ const ORB_COUNT = 8
  */
 export function runWheelRunningAnimation(root, opts = {}) {
   const { signal } = opts
-  const chrome = root.querySelector('.wheel-picker__chrome')
 
   return new Promise((resolve) => {
+    const chrome = getWheelPickerLayoutTarget(root)
     if (!(root instanceof HTMLElement) || !(chrome instanceof HTMLElement) || signal?.aborted) {
       resolve()
       return

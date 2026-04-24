@@ -1,0 +1,183 @@
+/* Chromium / wayou t-rex-runner styles, scoped to the Pomodoro embed so the shell
+   and global `html, body` are not affected. See https://github.com/wayou/t-rex-runner */
+
+.pomodoro-trex-embed {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+  width: 100%;
+  min-height: 9rem;
+  flex: 1 1 auto;
+  isolation: isolate;
+}
+
+.pomodoro-trex-embed * {
+  box-sizing: border-box;
+}
+
+.pomodoro-trex-embed .icon {
+  -webkit-user-select: none;
+  user-select: none;
+  display: inline-block;
+}
+
+.pomodoro-trex-embed .icon-offline {
+  content: -webkit-image-set(
+    url(/vendor/trex/images/default_100_percent/100-error-offline.png) 1x,
+    url(/vendor/trex/images/default_200_percent/200-error-offline.png) 2x
+  );
+  position: relative;
+}
+
+.pomodoro-trex-embed .hidden {
+  display: none;
+}
+
+/* Offline (embedded) */
+.pomodoro-trex-embed .interstitial-wrapper {
+  color: #2b2b2b;
+  font-size: 1em;
+  line-height: 1.55;
+  margin: 0 auto;
+  max-width: 600px;
+  padding-top: 0.4rem;
+  width: 100%;
+  position: relative;
+  min-height: 8.5rem;
+}
+
+.pomodoro-trex-embed.offline .runner-container {
+  height: 150px;
+  max-width: 600px;
+  overflow: hidden;
+  position: absolute;
+  top: 35px;
+  width: 44px;
+}
+
+.pomodoro-trex-embed.offline .runner-canvas {
+  height: 150px;
+  max-width: 600px;
+  opacity: 1;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  z-index: 2;
+}
+
+.pomodoro-trex-embed .offline .controller,
+.pomodoro-trex-embed.offline .controller {
+  background: rgba(247, 247, 247, 0.1);
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.pomodoro-trex-embed #offline-resources {
+  display: none;
+}
+
+.pomodoro-trex-embed.inverted,
+.pomodoro-trex-embed.inverted .runner-canvas,
+.pomodoro-trex-embed.inverted .controller {
+  filter: invert(1);
+}
+
+@media (max-width: 420px) {
+  .pomodoro-trex-embed .suggested-left > #control-buttons,
+  .pomodoro-trex-embed .suggested-right > #control-buttons {
+    float: none;
+  }
+  .pomodoro-trex-embed .snackbar {
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    border-radius: 0;
+  }
+}
+
+@media (max-height: 350px) {
+  .pomodoro-trex-embed h1 {
+    margin: 0 0 15px;
+  }
+  .pomodoro-trex-embed .icon-offline {
+    margin: 0 0 10px;
+  }
+  .pomodoro-trex-embed .interstitial-wrapper {
+    margin-top: 5%;
+  }
+  .pomodoro-trex-embed .nav-wrapper {
+    margin-top: 30px;
+  }
+}
+
+@media (min-width: 600px) and (max-width: 736px) and (orientation: landscape) {
+  .pomodoro-trex-embed.offline .interstitial-wrapper {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+@media (min-width: 420px) and (max-width: 736px) and (min-height: 240px) and (max-height: 420px) and (orientation: landscape) {
+  .pomodoro-trex-embed .interstitial-wrapper {
+    margin-bottom: 100px;
+  }
+}
+
+@media (min-height: 240px) and (orientation: landscape) {
+  .pomodoro-trex-embed.offline .interstitial-wrapper {
+    margin-bottom: 90px;
+  }
+  .pomodoro-trex-embed .icon-offline {
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-height: 320px) and (orientation: landscape) {
+  .pomodoro-trex-embed .icon-offline {
+    margin-bottom: 0;
+  }
+  .pomodoro-trex-embed.offline .runner-container {
+    top: 10px;
+  }
+}
+
+@media (max-width: 240px) {
+  .pomodoro-trex-embed .interstitial-wrapper {
+    overflow: inherit;
+    padding: 0 8px;
+  }
+}
+
+.pomodoro-trex-embed.arcade-mode,
+.pomodoro-trex-embed.arcade-mode .runner-container,
+.pomodoro-trex-embed.arcade-mode .runner-canvas {
+  image-rendering: pixelated;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.pomodoro-trex-embed.arcade-mode #buttons,
+.pomodoro-trex-embed.arcade-mode #main-content {
+  opacity: 0;
+  overflow: hidden;
+}
+
+.pomodoro-trex-embed.arcade-mode .interstitial-wrapper {
+  height: 100%;
+  min-height: 12rem;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.pomodoro-trex-embed.arcade-mode .runner-container {
+  left: 0;
+  margin: auto;
+  right: 0;
+  transform-origin: top center;
+  transition: transform 250ms cubic-bezier(0.4, 0, 1, 1) 400ms;
+  z-index: 2;
+}

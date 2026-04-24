@@ -45,6 +45,47 @@
   overflow: hidden;
 }
 
+/* Timer wheels vs. T-Rex panel (only one visible at a time) */
+.wheel-picker__panel {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+.wheel-picker__panel[hidden] {
+  display: none !important;
+}
+
+.wheel-picker__panel--trex {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-height: calc(var(--wheel-item) * var(--wheel-visible));
+  padding-top: 0.12rem;
+}
+
+.wheel-picker__trex-hint {
+  font-size: 0.55rem;
+  text-align: center;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.32);
+  margin: 0 0 0.2rem;
+  flex-shrink: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+.wheel-picker__trex-host {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 8.5rem;
+  border-radius: 0.45rem;
+  overflow: hidden;
+  background: #f7f7f7;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
 /* Inner bezel ring — matches `.pomodoro-timer__face::before` */
 .wheel-picker__chrome::before {
   content: "";

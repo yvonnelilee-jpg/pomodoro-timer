@@ -10,6 +10,24 @@ const COLUMN_TEMPLATE_ID = 'wheel-picker-column-template'
 const ROW_TEMPLATE_ID = 'wheel-picker-row-template'
 
 /**
+ * The running / celebration canvas should match the visible screen area: wheels when
+ * the duration panel is shown, otherwise the full chrome (e.g. T-Rex visible).
+ * @param {HTMLElement} root `#duration-wheels`
+ * @returns {HTMLElement | null}
+ */
+export function getWheelPickerLayoutTarget(root) {
+  if (!(root instanceof HTMLElement)) {
+    return null
+  }
+  const wheelsPanel = root.querySelector('.wheel-picker__panel--wheels')
+  if (wheelsPanel instanceof HTMLElement && !wheelsPanel.hidden) {
+    return wheelsPanel
+  }
+  const node = root.querySelector('.wheel-picker__chrome')
+  return node instanceof HTMLElement ? node : null
+}
+
+/**
  * Mounts the three wheel columns inside `container` from `#wheel-picker-column-template`.
  * @param {HTMLElement} container Typically `#wheel-picker-columns`.
  * @param {readonly WheelColumnSpec[]} specs

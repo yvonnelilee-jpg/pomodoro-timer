@@ -3,6 +3,8 @@
  * then teardown so the wheel is usable again.
  */
 
+import { getWheelPickerLayoutTarget } from './wheel-picker.js'
+
 const BW = ['#ffffff', '#e6e6e6', '#b8b8b8', '#7a7a7a', '#444444', '#1c1c1c']
 
 const CELEBRATION_MS = 2600
@@ -70,9 +72,9 @@ function spawnBurst(w, h, out) {
  */
 export function runWheelCompletionCelebration(root, opts = {}) {
   const { signal } = opts
-  const chrome = root.querySelector('.wheel-picker__chrome')
 
   return new Promise((resolve) => {
+    const chrome = getWheelPickerLayoutTarget(root)
     if (!(root instanceof HTMLElement) || !(chrome instanceof HTMLElement)) {
       resolve()
       return
