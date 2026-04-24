@@ -48,6 +48,7 @@
     0 0.35rem 0 rgba(0, 0, 0, 0.25),
     0 1.25rem 2.5rem rgba(0, 0, 0, 0.5);
   --shadow-case-in: inset 0 1px 0 rgba(255, 255, 255, 0.35), inset 0 -0.5rem 1rem rgba(0, 0, 0, 0.12);
-  --flip-phase-duration: 0.18s;
-  --flip-overlap-delay: 0.18s;
+  /* Split-flap: upper then lower; sequencing is driven in JS (two classes), not animation-delay. */
+  --flip-phase-duration: 0.42s;
+  --flip-perspective: min(920px, 28rem);
 }

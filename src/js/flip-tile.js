@@ -1,13 +1,32 @@
 /**
- * Split-flap “flip tile” UI: hydrates each `.flip-tile` from a shared HTML template
- * instead of building identical DOM in JavaScript.
+ * Split-flap “flip tile” UI: hydrates each `.flip-tile` from a shared HTML template.
+ * Flip runs in two DOM phases so the upper leaf finishes before the lower leaf runs
+ * (no CSS animation-delay overlap — avoids both digits showing at once).
+ * A short gap after phase 1 lets the browser paint a stable frame before phase 2.
  */
 
+import { FLIP_INTER_PHASE_GAP_MS } from './constants.js'
+
 const FLIP_LAYERS_TEMPLATE_ID = 'flip-tile-layers-template'
+
+const PHASE1 = 'is-flipping-phase1'
+const PHASE2 = 'is-flipping-phase2'
 
 /**
  * @typedef {{ setValue: (next: string, animate?: boolean) => void }} FlipTileController
  */
+
+/**
+ * @param {AnimationEvent} e
+ * @param {string} nameSubstring
+ * @returns {boolean}
+ */
+function isOwnKeyframeEnd(e, nameSubstring) {
+  return (
+    e.target === e.currentTarget &&
+    e.animationName.split(',').some((n) => n.trim().includes(nameSubstring))
+  )
+}
 
 /**
  * Clone canonical flip layers from `#flip-tile-layers-template` into `tileEl`,
@@ -38,6 +57,7 @@ export function createFlipTile(tileEl) {
   const bottomStaticText = tileEl.querySelector('.flip-tile__half--bottom .flip-tile__text')
   const topFlapText = tileEl.querySelector('.flip-tile__flap--top .flip-tile__text')
   const bottomFlapText = tileEl.querySelector('.flip-tile__flap--bottom .flip-tile__text')
+  const topFlap = tileEl.querySelector('.flip-tile__flap--top')
   const bottomFlap = tileEl.querySelector('.flip-tile__flap--bottom')
 
   if (
@@ -45,6 +65,7 @@ export function createFlipTile(tileEl) {
     !(bottomStaticText instanceof HTMLElement) ||
     !(topFlapText instanceof HTMLElement) ||
     !(bottomFlapText instanceof HTMLElement) ||
+    !(topFlap instanceof HTMLElement) ||
     !(bottomFlap instanceof HTMLElement)
   ) {
     console.error('[flip-tile] Template structure mismatch')
@@ -58,7 +79,20 @@ export function createFlipTile(tileEl) {
   let flipping = false
   let queued = ''
   let flipRafId = 0
+  /** @type {number} */
+  let phase2GapTimeoutId = 0
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
+
+  function clearPhase2Gap() {
+    if (phase2GapTimeoutId) {
+      clearTimeout(phase2GapTimeoutId)
+      phase2GapTimeoutId = 0
+    }
+  }
+
+  function clearFlipClasses() {
+    tileEl.classList.remove(PHASE1, PHASE2, 'is-flipping')
+  }
 
   function commitStatic(next) {
     topStaticText.textContent = next
@@ -66,21 +100,39 @@ export function createFlipTile(tileEl) {
     current = next
   }
 
-  function runFlip(next) {
-    flipping = true
-    topFlapText.textContent = current
-    bottomFlapText.textContent = next
-    if (flipRafId) cancelAnimationFrame(flipRafId)
-    tileEl.classList.remove('is-flipping')
-    flipRafId = requestAnimationFrame(() => {
-      tileEl.classList.add('is-flipping')
-      flipRafId = 0
+  /**
+   * After upper flap ends: clear phase 1, wait one frame + a short timeout so layout
+   * settles, then start phase 2 (lower flap only).
+   */
+  function beginPhase2() {
+    clearFlipClasses()
+    clearPhase2Gap()
+    requestAnimationFrame(() => {
+      phase2GapTimeoutId = setTimeout(() => {
+        phase2GapTimeoutId = 0
+        if (!flipping) return
+        requestAnimationFrame(() => {
+          if (!flipping) return
+          tileEl.classList.add(PHASE2)
+        })
+      }, FLIP_INTER_PHASE_GAP_MS)
     })
   }
 
-  bottomFlap.addEventListener('animationend', () => {
+  /** @param {AnimationEvent} e */
+  function onTopAnimationEnd(e) {
     if (!flipping) return
-    tileEl.classList.remove('is-flipping')
+    if (!isOwnKeyframeEnd(e, 'flip-tile-top-fold')) return
+    topFlap.removeEventListener('animationend', onTopAnimationEnd)
+    beginPhase2()
+  }
+
+  /** @param {AnimationEvent} e */
+  function onBottomAnimationEnd(e) {
+    if (!flipping) return
+    if (!isOwnKeyframeEnd(e, 'flip-tile-bottom-swing')) return
+    bottomFlap.removeEventListener('animationend', onBottomAnimationEnd)
+    clearFlipClasses()
     flipping = false
     const next = bottomFlapText.textContent || current
     commitStatic(next)
@@ -89,7 +141,23 @@ export function createFlipTile(tileEl) {
       queued = ''
       runFlip(pending)
     }
-  })
+  }
+
+  function runFlip(next) {
+    flipping = true
+    topFlapText.textContent = current
+    bottomFlapText.textContent = next
+    if (flipRafId) cancelAnimationFrame(flipRafId)
+    flipRafId = 0
+    clearPhase2Gap()
+    clearFlipClasses()
+    topFlap.addEventListener('animationend', onTopAnimationEnd)
+    bottomFlap.addEventListener('animationend', onBottomAnimationEnd)
+    flipRafId = requestAnimationFrame(() => {
+      tileEl.classList.add(PHASE1)
+      flipRafId = 0
+    })
+  }
 
   return {
     /**
@@ -104,7 +172,10 @@ export function createFlipTile(tileEl) {
           cancelAnimationFrame(flipRafId)
           flipRafId = 0
         }
-        tileEl.classList.remove('is-flipping')
+        clearPhase2Gap()
+        topFlap.removeEventListener('animationend', onTopAnimationEnd)
+        bottomFlap.removeEventListener('animationend', onBottomAnimationEnd)
+        clearFlipClasses()
         flipping = false
         commitStatic(next)
         return

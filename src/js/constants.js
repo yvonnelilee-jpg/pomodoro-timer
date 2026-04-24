@@ -8,6 +8,9 @@ export const MS_PER_SECOND = 1000
 /** Cap for completion alert playback (`public/audio/lofi-alert.mp3`). */
 export const COMPLETION_SOUND_MAX_MS = 5000
 
+/** Pause after upper flap finishes before lower flap runs (reduces flicker between phases). */
+export const FLIP_INTER_PHASE_GAP_MS = 85
+
 /**
  * @typedef {'hours' | 'minutes' | 'seconds'} WheelKind
  */

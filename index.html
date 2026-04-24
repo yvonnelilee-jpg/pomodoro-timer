@@ -61,18 +61,20 @@
 
     <!-- Shared flip layers (cloned into each `.flip-tile` by `flip-tile.js`) -->
     <template id="flip-tile-layers-template">
-        <span class="flip-tile__half flip-tile__half--top">
-            <span class="flip-tile__text"></span>
-        </span>
-        <span class="flip-tile__half flip-tile__half--bottom">
-            <span class="flip-tile__text"></span>
-        </span>
-        <span class="flip-tile__flap flip-tile__flap--top">
-            <span class="flip-tile__text"></span>
-        </span>
-        <span class="flip-tile__flap flip-tile__flap--bottom">
-            <span class="flip-tile__text"></span>
-        </span>
+        <div class="flip-tile__stage" aria-hidden="true">
+            <span class="flip-tile__half flip-tile__half--top">
+                <span class="flip-tile__text"></span>
+            </span>
+            <span class="flip-tile__half flip-tile__half--bottom">
+                <span class="flip-tile__text"></span>
+            </span>
+            <span class="flip-tile__flap flip-tile__flap--top">
+                <span class="flip-tile__text"></span>
+            </span>
+            <span class="flip-tile__flap flip-tile__flap--bottom">
+                <span class="flip-tile__text"></span>
+            </span>
+        </div>
     </template>
 
     <!-- One wheel column (cloned ×3 by `wheel-picker.js`) -->
