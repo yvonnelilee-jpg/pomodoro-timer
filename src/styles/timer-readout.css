@@ -24,7 +24,7 @@
 .timer-readout__colon {
   font-size: clamp(2.25rem, 10vw, 3.5rem);
   padding: 0 0.04em;
-  color: #3a3d45;
+  color: var(--color-colon);
   opacity: 0.68;
   translate: 0 -0.04em;
 }

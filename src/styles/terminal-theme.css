@@ -1,0 +1,111 @@
+/* Five screenshot-based color themes for case, face, controls, and knob */
+
+.pomodoro-timer[data-theme='oxblood'] .pomodoro-timer__case {
+  background: linear-gradient(165deg, #470b00 0%, #3a0800 14%, #2f0700 42%, #260500 76%, #1f0400 100%);
+}
+.pomodoro-timer[data-theme='oxblood'] .pomodoro-timer__face {
+  background: linear-gradient(180deg, #4f1408 0%, #3c0f05 100%);
+  border-color: rgba(38, 10, 5, 0.62);
+}
+.pomodoro-timer[data-theme='oxblood'] .timer-controls__btn {
+  background: linear-gradient(180deg, #6a2013 0%, #4f160d 48%, #3a1008 100%);
+  border-color: #2f0a05;
+  color: #f3dbcd;
+}
+.pomodoro-timer[data-theme='oxblood'] .pomodoro-timer__case::after {
+  background: linear-gradient(180deg, #2a0702 0%, #1f0501 45%, #160300 100%);
+}
+.pomodoro-timer[data-theme='oxblood'] .timer-controls__theme-select {
+  border-color: rgba(42, 8, 2, 0.78);
+  background:
+    radial-gradient(circle at 30% 30%, rgba(133, 50, 35, 0.82) 0%, rgba(133, 50, 35, 0) 42%),
+    linear-gradient(180deg, #5b170c 0%, #411006 58%, #2d0904 100%);
+}
+
+.pomodoro-timer[data-theme='parchment'] .pomodoro-timer__case {
+  background: linear-gradient(165deg, #e3d8c8 0%, #d8cab8 14%, #ccbca8 42%, #bfad98 76%, #b19e8a 100%);
+}
+.pomodoro-timer[data-theme='parchment'] .pomodoro-timer__face {
+  background: linear-gradient(180deg, #e5d8c7 0%, #d0c0ad 100%);
+  border-color: rgba(109, 95, 79, 0.52);
+}
+.pomodoro-timer[data-theme='parchment'] .timer-controls__btn {
+  background: linear-gradient(180deg, #ede2d3 0%, #d8cab6 48%, #c3b29d 100%);
+  border-color: #907c68;
+  color: #4c4134;
+}
+.pomodoro-timer[data-theme='parchment'] .pomodoro-timer__case::after {
+  background: linear-gradient(180deg, #8f7b64 0%, #75634f 45%, #5f4f3e 100%);
+}
+.pomodoro-timer[data-theme='parchment'] .timer-controls__theme-select {
+  border-color: rgba(122, 106, 88, 0.72);
+  background:
+    radial-gradient(circle at 30% 30%, rgba(248, 242, 232, 0.82) 0%, rgba(248, 242, 232, 0) 42%),
+    linear-gradient(180deg, #e4d7c5 0%, #ccbca7 58%, #af9c86 100%);
+}
+
+.pomodoro-timer[data-theme='brick'] .pomodoro-timer__case {
+  background: linear-gradient(165deg, #4d4d4d 0%, #404040 14%, #343434 42%, #2a2a2a 76%, #202020 100%);
+}
+.pomodoro-timer[data-theme='brick'] .pomodoro-timer__face {
+  background: linear-gradient(180deg, #555555 0%, #353535 100%);
+  border-color: rgba(22, 22, 22, 0.62);
+}
+.pomodoro-timer[data-theme='brick'] .timer-controls__btn {
+  background: linear-gradient(180deg, #676767 0%, #494949 48%, #323232 100%);
+  border-color: #262626;
+  color: #ededed;
+}
+.pomodoro-timer[data-theme='brick'] .pomodoro-timer__case::after {
+  background: linear-gradient(180deg, #2c2c2c 0%, #1f1f1f 45%, #131313 100%);
+}
+.pomodoro-timer[data-theme='brick'] .timer-controls__theme-select {
+  border-color: rgba(35, 35, 35, 0.78);
+  background:
+    radial-gradient(circle at 30% 30%, rgba(180, 180, 180, 0.82) 0%, rgba(180, 180, 180, 0) 42%),
+    linear-gradient(180deg, #5a5a5a 0%, #3f3f3f 58%, #2a2a2a 100%);
+}
+
+.pomodoro-timer[data-theme='turquoise'] .pomodoro-timer__case {
+  background: linear-gradient(165deg, #2f6f71 0%, #286264 14%, #215557 42%, #1b484a 76%, #153b3d 100%);
+}
+.pomodoro-timer[data-theme='turquoise'] .pomodoro-timer__face {
+  background: linear-gradient(180deg, #3f8688 0%, #2a6466 100%);
+  border-color: rgba(20, 63, 65, 0.56);
+}
+.pomodoro-timer[data-theme='turquoise'] .timer-controls__btn {
+  background: linear-gradient(180deg, #58a7aa 0%, #3d878a 48%, #2a6769 100%);
+  border-color: #1f5758;
+  color: #e5f7f7;
+}
+.pomodoro-timer[data-theme='turquoise'] .pomodoro-timer__case::after {
+  background: linear-gradient(180deg, #1f5052 0%, #173f41 45%, #102f31 100%);
+}
+.pomodoro-timer[data-theme='turquoise'] .timer-controls__theme-select {
+  border-color: rgba(24, 73, 75, 0.74);
+  background:
+    radial-gradient(circle at 30% 30%, rgba(162, 228, 229, 0.82) 0%, rgba(162, 228, 229, 0) 42%),
+    linear-gradient(180deg, #4f999c 0%, #35797b 58%, #235d5f 100%);
+}
+
+.pomodoro-timer[data-theme='olive'] .pomodoro-timer__case {
+  background: linear-gradient(165deg, #726647 0%, #665b3f 14%, #5c5239 42%, #504833 76%, #463f2d 100%);
+}
+.pomodoro-timer[data-theme='olive'] .pomodoro-timer__face {
+  background: linear-gradient(180deg, #7b6e4e 0%, #5e543d 100%);
+  border-color: rgba(59, 52, 37, 0.58);
+}
+.pomodoro-timer[data-theme='olive'] .timer-controls__btn {
+  background: linear-gradient(180deg, #8c7d58 0%, #736646 48%, #5f5338 100%);
+  border-color: #4c422e;
+  color: #efe5d0;
+}
+.pomodoro-timer[data-theme='olive'] .pomodoro-timer__case::after {
+  background: linear-gradient(180deg, #4c432f 0%, #3b3425 45%, #2f291c 100%);
+}
+.pomodoro-timer[data-theme='olive'] .timer-controls__theme-select {
+  border-color: rgba(64, 56, 40, 0.74);
+  background:
+    radial-gradient(circle at 30% 30%, rgba(174, 159, 113, 0.82) 0%, rgba(174, 159, 113, 0) 42%),
+    linear-gradient(180deg, #7c6f4e 0%, #64593e 58%, #504734 100%);
+}

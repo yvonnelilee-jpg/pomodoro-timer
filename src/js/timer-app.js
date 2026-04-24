@@ -14,6 +14,7 @@ import { runWheelRunningAnimation } from './running-wheel-animation.js'
  * Query required elements and start listeners. No-op if DOM is incomplete.
  */
 export function initTimerApp() {
+  const THEME_KEY = 'pomodoro-theme'
   const root = document.querySelector('.pomodoro-timer')
   const durationWheels = document.getElementById('duration-wheels')
   const wheelColumnsRoot = document.getElementById('wheel-picker-columns')
@@ -24,6 +25,7 @@ export function initTimerApp() {
   const timerDisplay = document.getElementById('timer-display')
   const startPauseBtn = document.getElementById('start-pause-btn')
   const resetBtn = document.getElementById('reset-btn')
+  const themeSelect = document.getElementById('theme-select')
 
   if (
     !root ||
@@ -35,7 +37,8 @@ export function initTimerApp() {
     !modeEl ||
     !timerDisplay ||
     !startPauseBtn ||
-    !resetBtn
+    !resetBtn ||
+    !(themeSelect instanceof HTMLSelectElement)
   ) {
     console.error('[pomodoro] Missing required DOM nodes; timer not initialized.')
     return
@@ -119,6 +122,30 @@ export function initTimerApp() {
   const flipHours = createFlipTile(tileHours)
   const flipMinutes = createFlipTile(tileMinutes)
   const flipSeconds = createFlipTile(tileSeconds)
+
+  /**
+   * @param {string} nextTheme
+   */
+  function applyTheme(nextTheme) {
+    const themeAliases = {
+      classic: 'parchment',
+      green: 'olive',
+      amber: 'turquoise',
+      apricot: 'turquoise',
+      ice: 'parchment',
+    }
+    const normalized = themeAliases[nextTheme] || nextTheme
+    const theme = ['oxblood', 'parchment', 'brick', 'turquoise', 'olive'].includes(normalized)
+      ? normalized
+      : 'parchment'
+    root.dataset.theme = theme
+    themeSelect.value = theme
+    try {
+      window.localStorage.setItem(THEME_KEY, theme)
+    } catch {
+      // Ignore storage errors (private mode / disabled storage).
+    }
+  }
 
   function updateCountdownDisplay(animate = false) {
     const { h, m, s } = hmsFromRemaining(remaining)
@@ -247,7 +274,19 @@ export function initTimerApp() {
 
   updateCountdownDisplay(false)
   updateTimerDatetime()
+  const savedTheme = (() => {
+    try {
+      return window.localStorage.getItem(THEME_KEY) || 'parchment'
+    } catch {
+      return 'parchment'
+    }
+  })()
+  applyTheme(savedTheme)
   refreshUiState()
+
+  themeSelect.addEventListener('change', () => {
+    applyTheme(themeSelect.value)
+  })
 
   startPauseBtn.addEventListener('click', () => {
     if (running) pauseTimer()
