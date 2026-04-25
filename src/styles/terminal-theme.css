@@ -23,7 +23,7 @@
 .pomodoro-timer[data-theme='oxblood'] .pomodoro-timer__case::after {
   background: linear-gradient(180deg, #2a0702 0%, #1f0501 45%, #160300 100%);
 }
-.pomodoro-timer[data-theme='oxblood'] .timer-controls__theme-select {
+.pomodoro-timer[data-theme='oxblood'] .timer-controls__theme-select-face {
   border-color: rgba(42, 8, 2, 0.78);
   background:
     radial-gradient(circle at 30% 30%, rgba(133, 50, 35, 0.82) 0%, rgba(133, 50, 35, 0) 42%),
@@ -53,7 +53,7 @@
 .pomodoro-timer[data-theme='parchment'] .pomodoro-timer__case::after {
   background: linear-gradient(180deg, #8f7b64 0%, #75634f 45%, #5f4f3e 100%);
 }
-.pomodoro-timer[data-theme='parchment'] .timer-controls__theme-select {
+.pomodoro-timer[data-theme='parchment'] .timer-controls__theme-select-face {
   border-color: rgba(122, 106, 88, 0.72);
   background:
     radial-gradient(circle at 30% 30%, rgba(248, 242, 232, 0.82) 0%, rgba(248, 242, 232, 0) 42%),
@@ -83,7 +83,7 @@
 .pomodoro-timer[data-theme='brick'] .pomodoro-timer__case::after {
   background: linear-gradient(180deg, #2c2c2c 0%, #1f1f1f 45%, #131313 100%);
 }
-.pomodoro-timer[data-theme='brick'] .timer-controls__theme-select {
+.pomodoro-timer[data-theme='brick'] .timer-controls__theme-select-face {
   border-color: rgba(35, 35, 35, 0.78);
   background:
     radial-gradient(circle at 30% 30%, rgba(180, 180, 180, 0.82) 0%, rgba(180, 180, 180, 0) 42%),
@@ -113,7 +113,7 @@
 .pomodoro-timer[data-theme='turquoise'] .pomodoro-timer__case::after {
   background: linear-gradient(180deg, #1f5052 0%, #173f41 45%, #102f31 100%);
 }
-.pomodoro-timer[data-theme='turquoise'] .timer-controls__theme-select {
+.pomodoro-timer[data-theme='turquoise'] .timer-controls__theme-select-face {
   border-color: rgba(24, 73, 75, 0.74);
   background:
     radial-gradient(circle at 30% 30%, rgba(162, 228, 229, 0.82) 0%, rgba(162, 228, 229, 0) 42%),
@@ -143,7 +143,7 @@
 .pomodoro-timer[data-theme='olive'] .pomodoro-timer__case::after {
   background: linear-gradient(180deg, #4c432f 0%, #3b3425 45%, #2f291c 100%);
 }
-.pomodoro-timer[data-theme='olive'] .timer-controls__theme-select {
+.pomodoro-timer[data-theme='olive'] .timer-controls__theme-select-face {
   border-color: rgba(64, 56, 40, 0.74);
   background:
     radial-gradient(circle at 30% 30%, rgba(174, 159, 113, 0.82) 0%, rgba(174, 159, 113, 0) 42%),

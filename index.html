@@ -19,25 +19,34 @@
                 <span class="shape-decor-7" aria-hidden="true"></span>
                 <span class="shape-decor-8" aria-hidden="true"></span>
                 <div class="pomodoro-timer__theme-knob">
-                    <select id="theme-select" class="timer-controls__theme-select" aria-label="Display theme">
-                        <option value="oxblood">Oxblood</option>
-                        <option value="parchment">Parchment</option>
-                        <option value="brick">Brick</option>
-                        <option value="turquoise">Dark Turquoise</option>
-                        <option value="olive">Olive</option>
-                    </select>
-                    <select id="preset-duration-select" class="timer-controls__theme-select" aria-label="Duration preset">
-                        <option value="custom">Custom</option>
-                        <option value="5">5 min</option>
-                        <option value="10">10 min</option>
-                        <option value="15">15 min</option>
-                        <option value="25" selected>25 min</option>
-                        <option value="50">50 min</option>
-                    </select>
-                    <select id="screen-content-select" class="timer-controls__theme-select" aria-label="Screen content">
-                        <option value="duration" selected>Timer</option>
-                        <option value="trex">Dino</option>
-                    </select>
+                    <div class="timer-controls__theme-select-stack">
+                        <span class="timer-controls__theme-select-face" aria-hidden="true"></span>
+                        <select id="theme-select" class="timer-controls__theme-select" aria-label="Display theme">
+                            <option value="oxblood">Oxblood</option>
+                            <option value="parchment">Parchment</option>
+                            <option value="brick">Brick</option>
+                            <option value="turquoise">Dark Turquoise</option>
+                            <option value="olive">Olive</option>
+                        </select>
+                    </div>
+                    <div class="timer-controls__theme-select-stack">
+                        <span class="timer-controls__theme-select-face" aria-hidden="true"></span>
+                        <select id="preset-duration-select" class="timer-controls__theme-select" aria-label="Duration preset">
+                            <option value="custom">Custom</option>
+                            <option value="5">5 min</option>
+                            <option value="10">10 min</option>
+                            <option value="15">15 min</option>
+                            <option value="25" selected>25 min</option>
+                            <option value="50">50 min</option>
+                        </select>
+                    </div>
+                    <div class="timer-controls__theme-select-stack">
+                        <span class="timer-controls__theme-select-face" aria-hidden="true"></span>
+                        <select id="screen-content-select" class="timer-controls__theme-select" aria-label="Screen content">
+                            <option value="duration" selected>Timer</option>
+                            <option value="trex">Dino</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="tamagotchi-screen">
                     <section class="timer-setup" aria-label="Set duration">
