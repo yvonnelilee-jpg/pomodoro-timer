@@ -4,7 +4,7 @@
 
 import './style.css'
 
-import { initTimerApp } from './js/timer-app.js'
+import { initTimerApp } from './pomodoro/timer-app.js'
 
 function boot() {
   initTimerApp()
